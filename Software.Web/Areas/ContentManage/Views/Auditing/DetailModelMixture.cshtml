@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "新建文档";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    //此页面 是混合中英文文档上传
+    var thisEditType = 1;//0默认不是编辑也不是预览，1预览 2 编辑
+    var thisTab = 1;//当前页tab
+   var strEditId = '@ViewData["id"]';
+
+	$(function () { 
+        $("#liUpPage").hide();
+        $("#liDownPage").show(); 
+
+
+
+      
+		Date.prototype.Format = function (fmt) {
+			var o = {
+				"M+": this.getMonth() + 1,
+				"d+": this.getDate(),
+				"h+": this.getHours(),
+				"m+": this.getMinutes(),
+				"s+": this.getSeconds(),
+				"q+": Math.floor((this.getMonth() + 3) / 3),
+				"S": this.getMilliseconds()
+			};
+			if (/(y+)/.test(fmt))
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt))
+					fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+        }
+
+         
+        $("#hidTotalUrl").val('@Model.F_TotalUrl');
+		$("#hidChineseUrl").val('@Model.F_ChineseUrl');
+		$("#hidEnglishUrl").val('@Model.F_EnglishUrl');
+		$("#hidHtmlContent").val('@Model.F_HtmlUrl');
+		var startDate = new Date('@Model.F_ReleaseDate').Format('yyyy-MM-dd');
+		$('#F_ReleaseDate').val(startDate);
+        var endDate = new Date('@Model.F_ImplementDate').Format('yyyy-MM-dd');
+        $('#F_ImplementDate').val(endDate);
+		// 标签
+        document.getElementById("F_Label").innerHTML = '@Model.F_Label';
+		var answerEdit = $("#hid_note2").val();
+		$('#note1').summernote('code', answerEdit);
+
+        loadSecendTabData();
+	});
+
+    function loadFirstData() {
+         
+        //全部
+        $.ajax({
+            url: '/SystemManage/ItemsData/GetSelectJsonByCodes?enCodes=DocumentState,DocumentDomain,CaiBiao,Publisher,Direction',
+            datatype: 'json',
+            type: 'get',
+            async: true,
+            success: function (result) {
+                var strState = '';
+                var strDomain = '';
+                var caibiaoData = '';
+                var publisherData = '';
+                var directionData = '';
+                if (result != '' && result != null) {
+                    var obj = eval('(' + result + ')');
+                    $.each(obj[0], function () {
+                        this.isCheck = false;
+                        strState += '<label class="radio-inline"><input type="radio"  onclick="checkFileState(\'' + this.id + '\')" name="F_FileState" id="state' + this.id + '" value="' + this.id + '">' + this.text + '</label>'
+                    });
+                    $('#state_Id').html(strState);
+
+                    $.each(obj[1], function () {
+						this.isCheck = false;
+                        strDomain += '<label class="checkbox-inline"><input type="checkbox"  name="Domain" id="domain' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+						});
+					$('#F_Domain').html(strDomain);
+
+                    $.each(obj[2], function () {
+                        this.isCheck = false;
+                        caibiaoData += '<label class="checkbox-inline"><input type="checkbox"  name="AcquisitionStandard" id="acquisitionStandard' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+                    });
+                    $("#F_CaiBiao").append(caibiaoData);
+                    $.each(obj[3], function () {
+                        this.isCheck = false;
+                        publisherData += '<label class="checkbox-inline"><input type="checkbox"  name="Publisher" id="publisher' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+                    });
+                    $("#F_Publisher").append(publisherData);
+
+                    $.each(obj[4], function () {
+                        this.isCheck = false;
+                        directionData += '<label class="checkbox-inline"><input type="checkbox" disabled name="Direction" id="direction' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+                    });
+                    $("#F_Direction").append(directionData);
+                    if (strEditId != '' && strEditId != null) {
+                        // 类型
+                        $("#F_Type option[value='@Model.F_Type']").attr('selected', true); 
+                        changeFileType();  
+			            // 标签
+                        document.getElementById("F_Label").innerHTML = '@Model.F_Label';
+                        // 状态
+                        changeSelected("F_FileState", '@Model.F_FileState', 1);
+                        changeSelected("Domain", '@Model.F_Domain', 2);// 领域
+                        changeSelected("AcquisitionStandard", '@Model.F_AcquisitionStandard', 2);// 采标
+                        changeSelected("Publisher", '@Model.F_Publisher', 2);// 发布方
+                        changeSelected("Direction", '@Model.F_Direction', 2);// 方向
+		            }
+                }
+            }
+        });
+    }
+    function changeFileType() {
+        var fileStateVal = parseInt($('#F_Type').val());
+        if (fileStateVal == 1) {
+            $('#div_domain').css("display", "block");
+            $('#div_caiBiao').css("display", "block");
+            $('#div_publisher').css("display", "none");
+            $('#div_direction').css("display", "none");
+        }
+        if (fileStateVal == 2) {
+            $('#div_domain').css("display", "none");
+            $('#div_caiBiao').css("display", "none");
+            $('#div_publisher').css("display", "block");
+            $('#div_direction').css("display", "block");
+        }
+    }
+    function checkFileState(text) {
+        if (text != '有效' && text != '废止' && text != 'Effective' && text != 'Abolish') {
+            $("#F_ImplementDate").val('');
+            $("#divF_ImplementDateId").hide();
+        }
+        else {
+            $("#divF_ImplementDateId").show();
+        }
+    }
+    function changeSelected(id,initValue,elementType) {
+        if (elementType == 1) {
+            //单选 只有 类别
+            var selectsRadio = document.getElementsByName(id);
+            for (var i = 0; i < selectsRadio.length; i++) {
+                if (selectsRadio[i].value == initValue) {
+                    $('#' + selectsRadio[i].id + '').attr("checked", "checked");
+                    checkFileState(selectsRadio[i].value);
+                    return;
+				}
+			}
+        }
+        else {
+            //多选
+            var selectsCheck = document.getElementsByName(id);
+            if (initValue != '' && initValue != null) {
+                var strArray = initValue.split('^');
+                if (strArray.length > 0) {
+                    strArray.forEach(function (item) {
+                        for (var i = 0; i < selectsCheck.length; i++) {
+                            if (selectsCheck[i].value == item) {
+                                $('#' + selectsCheck[i].id + '').attr("checked", "checked");
+								break;
+							}
+						}
+					});
+				}
+			}
+        }
+    } 
+    function setTab(cursel) {
+
+        if (thisTab == 1 && cursel == 1) {
+            //第1页，点了第1页，不操作
+        } else if (thisTab == 2 && cursel == 1) {
+            tabChang(1);
+            //第2页，点了第1页 等于上一步 不操作
+        } else if (thisTab == 1 && cursel == 2) {
+            tabChang(2);
+            //第1页，点了第2页 等于下一步 验证表单，并且上传
+        } else if (thisTab == 2 && cursel == 2) {
+            //第2页，点了第2页 不操作
+        }
+    } 
+    
+    function tabChang(cursel) {
+        for (i = 1; i <= 2; i++) {
+            var menu = document.getElementById('a' + i);
+            var con = document.getElementById("con_a_" + i);
+            menu.className = i == cursel ? "curr" : "";
+            con.style.display = i == cursel ? "block" : "none";
+        }
+        thisTab = cursel;
+        if (cursel == 1) { 
+            $("#liUpPage").hide();
+            $("#liDownPage").show(); 
+        }
+        else if (cursel == 2) {
+            $("#liUpPage").show();
+            $("#liDownPage").hide(); 
+        }
+    }
+    function loadSecendTabData() { 
+        var totalUrl = $("#hidTotalUrl").val();
+
+	    $('#note1').summernote({
+		    lang: 'zh-CN',
+		    codemirror: {
+			    theme: 'monokai'
+		    },
+		    disableDragAndDrop: true,
+	    });
+	    var isEdit = false;
+        if (strEditId != '' && strEditId != null) {
+            isEdit = true;
+            $('#note1').summernote('destroy');// 编辑进来的 直接销毁
+        }
+        $.blockUI({
+            message: '<h2 style="color:black;font-size: 14px;"><br>数据加载中...</h2><br>'
+        });
+        $.ajax({
+            url: '/ContentManage/DocumentUpload/GetWordContent?keyValue=' + totalUrl + "&isEdit=" + isEdit,
+            datatype: 'json',
+            type: 'get',
+            async: true,
+            success: function (result) {
+                //预览用 先显示出来
+                if (result != '' && result != null) {
+                    $('#hidChineseId').val(result);
+                    var answer = $("#hidChineseId").val();
+                    $('#note1').summernote('code', answer);
+                    $('#note1').summernote('destroy'); 
+                }
+
+                loadFirstData();
+                $.unblockUI(); 
+            }
+        }); 
+    }
+    function Audit(status) {
+
+        $.ajax({
+            url: '/ContentManage/Auditing/Audit?keyValue=' + strEditId + '&status=' + status,
+            datatype: 'json',
+            type: 'get',
+            async: false,
+            success: function (result) {
+                if (result != '' && result != null && result == 1) {
+                    alert("操作成功");
+                    window.location.href = "/ContentManage/Auditing/Index";
+                }
+            }
+        });
+    }
+</script>
+<style>
+    p:hover {
+        background: #e8e8e8;
+    }
+    .tab {
+        height: 23px;
+    }
+
+        .tab ul {
+            list-style: none;
+        }
+
+        .tab li {
+            border: 1px solid #ccc;
+            background: #eee;
+            cursor: pointer;
+            display: block;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            width: 200px;
+            font-size: 12px;
+            height: 21px;
+            line-height: 21px;
+            margin: 0 2px;
+            position: relative;
+            top: 1px;
+            z-index: 9;
+        }
+
+            .tab li:hover {
+                text-decoration: underline;
+            }
+
+            .tab li.curr {
+                background: #fff;
+                border-bottom-color: #fff;
+                cursor: default;
+                font-weight: bold;
+            }
+
+    .cc {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>内容管理</a>
+            </li>
+            <li class="active">
+                <strong>文档上传</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查看文档</h5>
+                </div>
+                <div class="ibox-content">
+                    <form id="form" class="wizard-big">
+                        <div class="tab">
+                            <ul>
+                                <li id="a1" onclick="setTab(1)" class="curr">详情</li>
+                                <li id="a2" onclick="setTab(2)">元数据</li>
+                            </ul>
+                        </div>
+                        <div id="con_a_1" class="cc">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="button" value="预览" id="btnPreviewFile" class="btn btn-info" onclick="previewFileNote()"  style="display:none" />
+                                        <input type="button" value="编辑" id="btnPreviewEdit" class="btn btn-info" onclick="previewEditNote()" style="display:none" />
+                                    </div>
+                                    <div class="summernote" id="note1">
+                                    </div>
+                                    <input type="hidden" id="hid_note2" name="Hid_ZiXunContent" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="con_a_2" class="cc" style="display:none;">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>文档分类</label>
+                                        <select class="form-control" id="F_Type" name="F_Type" onchange="changeFileType()">
+                                            <option value="1">标准</option>
+                                            <option value="2">法规</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>中文标题</label>
+                                        <input type="text" class="form-control" placeholder="中文标题" name="F_ChineseTitle" id="F_ChineseTitle" value="@Model.F_ChineseTitle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>英文标题</label>
+                                        <input type="text" class="form-control" placeholder="英文标题" name="F_EnglishTitle" id="F_EnglishTitle" value="@Model.F_EnglishTitle">
+                                    </div>
+                                    <div class="form-group" id="div_state">
+                                        <label>状态</label>
+                                        <div id="state_Id">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="div_domain">
+                                        <label>领域</label>
+                                        <div id="F_Domain">
+                                        </div>
+                                        <input type="hidden" name="F_Domain" id="hid_Domain" />
+                                    </div>
+                                    <div class="form-group" id="div_caiBiao">
+                                        <label>采标</label>
+                                        <div id="F_CaiBiao">
+                                        </div>
+
+                                        <input type="hidden" name="F_AcquisitionStandard" id="hid_AcquisitionStandard" />
+                                    </div>
+                                    <div class="form-group" id="div_publisher">
+                                        <label>发布方</label>
+                                        <div id="F_Publisher">
+                                        </div>
+                                        <input type="hidden" name="F_Publisher" id="hid_Publisher" />
+                                    </div>
+                                    <div class="form-group" id="div_direction">
+                                        <label>方向</label>
+                                        <div id="F_Direction">
+                                        </div>
+                                        <input type="hidden" name="F_Direction" id="hid_Direction" />
+                                    </div>
+                                    <div class="form-group" id="divF_ReleaseDateId">
+                                        <label>发布日期</label>
+                                        <div id="data_Release">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" name="F_ReleaseDate" id="F_ReleaseDate" readonly="readonly">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="divF_ImplementDateId">
+                                        <label>实施日期</label>
+                                        <div id="data_Implement">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" name="F_ImplementDate" id="F_ImplementDate" readonly="readonly">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="divF_Lable">
+                                        <label>标签</label>
+                                        <textarea class="form-control col-sm-3" name="F_Label" id="F_Label"></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <ul role="menu" aria-label="Pagination">
+                            <li id="liUpPage" aria-disabled="true">
+                                <a href="#previous" onclick="setTab(1)" role="menuitem">上一步</a>
+                            </li>
+                            <li id="liDownPage" aria-hidden="false" aria-disabled="true">
+                                <a href="#next" onclick="setTab(2)" role="menuitem">下一步</a>
+                            </li>
+                        </ul>
+
+                        <input type="hidden" id="hidChineseId" />
+                        <input type="hidden" id="F_HtmlContent" name="F_HtmlContent" />
+                        <input type="hidden" id="hidChineseUrl" name="F_ChineseUrl" />
+                        <input type="hidden" id="hidEnglishUrl" name="F_EnglishUrl" />
+                        <input type="hidden" id="hidHtmlContent" name="F_HtmlUrl" />
+                        <input type="hidden" id="hidTotalUrl" name="F_TotalUrl" />
+                        <input type="hidden" id="hidTempCode" name="hidTempCode" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="未通过" id="btnAuditNo" class="btn btn-info" onclick="Audit(3)" />
+                    <input type="button" value="通过" id="btnAuditYes" class="btn btn-info" onclick="Audit(2)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

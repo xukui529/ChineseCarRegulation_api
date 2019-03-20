@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "下载管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        $('#data_Release .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            language: "zh-CN", 
+            format: "yyyy-mm-dd"
+        });
+        var id = '@ViewData["id"]';
+        var date = '';
+        if (id != '' && id != null) {
+            date = new Date('@Model.F_EffectiveDate').format('yyyy-MM-dd');
+             $('#F_EffectiveDate').val(date);
+        }
+    })
+     Date.prototype.format = function (format) {
+            var date = {
+                   "M+": this.getMonth() + 1,
+                   "d+": this.getDate(),
+                   "h+": this.getHours(),
+                   "m+": this.getMinutes(),
+                   "s+": this.getSeconds(),
+                   "q+": Math.floor((this.getMonth() + 3) / 3),
+                   "S+": this.getMilliseconds()
+                       };
+            if (/(y+)/i.test(format)) {
+             format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+             }
+             for (var k in date) {
+                if (new RegExp("(" + k + ")").test(format)) {
+                      format = format.replace(RegExp.$1, RegExp.$1.length == 1? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+
+                 }
+
+             }
+             return format;
+     }
+
+    function btnSave() {
+        var keyValue = '@ViewData["id"]';
+        var data = $("#createUser").serialize();
+        $.ajax({
+            url: "/AuxiliaryManag/DownloadManage/Index?keyValue=" + keyValue,
+            type: 'post',
+            data: data,
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 500
+                        };
+                        toastr.success('操作成功！');
+                    }, 100);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 600);
+                }
+            }
+        });
+    }
+
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>辅助管理</a>
+            </li>
+            <li class="active">
+                <strong>下载管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>会员打印与下载数量设置</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-inline">
+                        @*<span class="control-label">季付点数：40</span>&nbsp;&nbsp;
+                        <span class="control-label">年付点数：180</span>&nbsp;&nbsp;*@
+                        <span class="control-label" style="color:darkgray">打印默认计数为打印数，本处不作区分</span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" id="createUser">
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">老客户季付点数为：</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" placeholder="季付数" name="F_OldSeasonNumber" id="F_OldSeasonNumber" value="@Model.F_SeasonNumber">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">老客户年付点数为：</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" placeholder="年付数" name="F_OldYearNumber" id="F_OldYearNumber" value="@Model.F_YearNumber">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">新客户季付调整为：</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" placeholder="季付数" name="F_SeasonNumber" id="F_SeasonNumber" value="@Model.F_SeasonNumber">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">新客户年付调整为：</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" placeholder="年付数" name="F_YearNumber" id="F_YearNumber" value="@Model.F_YearNumber">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">生效日期</label>
+                                <div class="col-lg-4" id="data_Release">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" name="F_EffectiveDate" id="F_EffectiveDate" readonly="readonly">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10">
+                                    <button class="btn btn-success" type="button" onclick="btnSave()">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

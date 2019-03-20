@@ -1,0 +1,1287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A6C88298-F2DC-40B9-B0E5-7F7C47D08A14}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Software.Web</RootNamespace>
+    <AssemblyName>Software.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.8.10.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.10\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock, Version=0.9.16530.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jayrock.0.9.16530.1\lib\net40\Jayrock.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json, Version=0.9.16530.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jayrock-json.0.9.16530\lib\net40\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\LessJie.System.Web.Http.1.0.0\lib\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\ControllerBase.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\HandlerAjaxOnlyAttribute.cs" />
+    <Compile Include="App_Start\HandlerAuthorizeAttribute.cs" />
+    <Compile Include="App_Start\HandlerErrorAttribute.cs" />
+    <Compile Include="App_Start\HandlerLoginAttribute.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\AuxiliaryManag\AuxiliaryManagAreaRegistration.cs" />
+    <Compile Include="Areas\AuxiliaryManag\Controllers\DownloadManageController.cs" />
+    <Compile Include="Areas\AuxiliaryManag\Controllers\LinkManageController.cs" />
+    <Compile Include="Areas\AuxiliaryManag\Controllers\MessageController.cs" />
+    <Compile Include="Areas\AuxiliaryManag\Controllers\QuestionManageController.cs" />
+    <Compile Include="Areas\AuxiliaryManag\Controllers\SubscriptionController.cs" />
+    <Compile Include="Areas\ContentManage\ContentManageAreaRegistration.cs" />
+    <Compile Include="Areas\ContentManage\Controllers\AuditingController.cs" />
+    <Compile Include="Areas\ContentManage\Controllers\DocumentUploadController.cs" />
+    <Compile Include="Areas\ContentManage\Models\FileContentModel.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\ClassifySetController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\ItemsDataController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\ItemsTypeController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\MemberManageController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\MemberUpgradeApplyController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\ModuleController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\RoleAuthorizeController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\RoleController.cs" />
+    <Compile Include="Areas\SystemManage\Controllers\UserController.cs" />
+    <Compile Include="Areas\SystemManage\SystemManageAreaRegistration.cs" />
+    <Compile Include="Controllers\ClientsDataController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MyFile.cs" />
+    <Compile Include="Models\OfficeDocHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\bootstrap-reset.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\framework-about.css" />
+    <Content Include="Content\css\framework-font.css" />
+    <Content Include="Content\css\framework-login.css" />
+    <Content Include="Content\css\framework-theme.css" />
+    <Content Include="Content\css\framework-ui.css" />
+    <Content Include="Content\css\owl.carousel.css" />
+    <Content Include="Content\css\style-responsive.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\sweetalert.css" />
+    <Content Include="Content\css\toastr.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.svg" />
+    <Content Include="Content\img\404_icon.png" />
+    <Content Include="Content\img\500_icon.png" />
+    <Content Include="Content\img\ajax-loader.gif" />
+    <Content Include="Content\img\arrow-up.png" />
+    <Content Include="Content\img\avatar1_small.jpg" />
+    <Content Include="Content\img\button_pm_close.png" />
+    <Content Include="Content\img\chart-texture.jpg" />
+    <Content Include="Content\img\chat-avatar.jpg" />
+    <Content Include="Content\img\chat-avatar2.jpg" />
+    <Content Include="Content\img\checkbox\check-off.png" />
+    <Content Include="Content\img\checkbox\check-on.png" />
+    <Content Include="Content\img\checkbox\radio-off.png" />
+    <Content Include="Content\img\checkbox\radio-on.png" />
+    <Content Include="Content\img\customSelect-arrow.gif" />
+    <Content Include="Content\img\cy-reward-title-bg.jpg" />
+    <Content Include="Content\img\favicon.html" />
+    <Content Include="Content\img\follower-avatar.jpg" />
+    <Content Include="Content\img\left-arrow.png" />
+    <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\mail-avatar.jpg" />
+    <Content Include="Content\img\mask.png" />
+    <Content Include="Content\img\radio1.jpg" />
+    <Content Include="Content\img\radio2.jpg" />
+    <Content Include="Content\img\right-arrow.png" />
+    <Content Include="Content\img\ring.jpg" />
+    <Content Include="Content\img\search-icon.jpg" />
+    <Content Include="Content\js\bootstrap\bootstrap.js" />
+    <Content Include="Content\js\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\js\charts\Chart.js" />
+    <Content Include="Content\js\charts\Chart.min.js" />
+    <Content Include="Content\js\cookie\jquery.cookie.js" />
+    <Content Include="Content\js\datepicker\calendar.js" />
+    <Content Include="Content\js\datepicker\DatePicker.js" />
+    <Content Include="Content\js\datepicker\lang\en.js" />
+    <Content Include="Content\js\datepicker\lang\zh-cn.js" />
+    <Content Include="Content\js\datepicker\lang\zh-tw.js" />
+    <Content Include="Content\js\datepicker\skin\datePicker.gif" />
+    <Content Include="Content\js\datepicker\skin\datePicker.png" />
+    <Content Include="Content\js\datepicker\skin\datepicker_icon.png" />
+    <Content Include="Content\js\datepicker\skin\default\datepicker-dev.css" />
+    <Content Include="Content\js\datepicker\skin\default\datepicker.css" />
+    <Content Include="Content\js\datepicker\skin\default\img.gif" />
+    <Content Include="Content\js\datepicker\skin\default\img.png" />
+    <Content Include="Content\js\datepicker\skin\WdatePicker.css" />
+    <Content Include="Content\js\datepicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\js\datepicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\js\datepicker\skin\whyGreen\img.gif" />
+    <Content Include="Content\js\datepicker\WdatePicker.js" />
+    <Content Include="Content\js\datepicker\开发包\lang\en.js" />
+    <Content Include="Content\js\datepicker\开发包\lang\zh-cn.js" />
+    <Content Include="Content\js\datepicker\开发包\lang\zh-tw.js" />
+    <Content Include="Content\js\datepicker\开发包\readme.txt" />
+    <Content Include="Content\js\datepicker\开发包\skin\datePicker.gif" />
+    <Content Include="Content\js\datepicker\开发包\skin\datePicker.png" />
+    <Content Include="Content\js\datepicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Content\js\datepicker\开发包\skin\default\img.gif" />
+    <Content Include="Content\js\datepicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Content\js\datepicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\js\datepicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\js\datepicker\开发包\skin\whyGreen\img.gif" />
+    <Content Include="Content\js\dialog\dialog.css" />
+    <Content Include="Content\js\dialog\dialog.js" />
+    <Content Include="Content\js\dialog\img\icon-ext.png" />
+    <Content Include="Content\js\dialog\img\icon.png" />
+    <Content Include="Content\js\dialog\img\loading-0.gif" />
+    <Content Include="Content\js\dialog\img\loading-1.gif" />
+    <Content Include="Content\js\dialog\img\loading-2.gif" />
+    <Content Include="Content\js\dialog\img\loading-3.gif" />
+    <Content Include="Content\js\echarts\echarts-all.js" />
+    <Content Include="Content\js\echarts\echarts.js" />
+    <Content Include="Content\js\echarts\echarts.min.js" />
+    <Content Include="Content\js\echarts\infographic.js" />
+    <Content Include="Content\js\framework-clientdata.js" />
+    <Content Include="Content\js\framework-ui.js" />
+    <Content Include="Content\js\highcharts\adapters\mootools-adapter.js" />
+    <Content Include="Content\js\highcharts\adapters\mootools-adapter.src.js" />
+    <Content Include="Content\js\highcharts\adapters\prototype-adapter.js" />
+    <Content Include="Content\js\highcharts\adapters\prototype-adapter.src.js" />
+    <Content Include="Content\js\highcharts\adapters\standalone-framework.js" />
+    <Content Include="Content\js\highcharts\adapters\standalone-framework.src.js" />
+    <Content Include="Content\js\highcharts\highcharts-all.js" />
+    <Content Include="Content\js\highcharts\highcharts-more.js" />
+    <Content Include="Content\js\highcharts\highcharts-more.src.js" />
+    <Content Include="Content\js\highcharts\highcharts.js" />
+    <Content Include="Content\js\highcharts\highcharts.src.js" />
+    <Content Include="Content\js\highcharts\modules\canvas-tools.js" />
+    <Content Include="Content\js\highcharts\modules\canvas-tools.src.js" />
+    <Content Include="Content\js\highcharts\modules\data.js" />
+    <Content Include="Content\js\highcharts\modules\data.src.js" />
+    <Content Include="Content\js\highcharts\modules\drilldown.js" />
+    <Content Include="Content\js\highcharts\modules\drilldown.src.js" />
+    <Content Include="Content\js\highcharts\modules\exporting.js" />
+    <Content Include="Content\js\highcharts\modules\exporting.src.js" />
+    <Content Include="Content\js\highcharts\modules\funnel.js" />
+    <Content Include="Content\js\highcharts\modules\funnel.src.js" />
+    <Content Include="Content\js\highcharts\modules\no-data-to-display.js" />
+    <Content Include="Content\js\highcharts\modules\no-data-to-display.src.js" />
+    <Content Include="Content\js\highcharts\themes\dark-blue.js" />
+    <Content Include="Content\js\highcharts\themes\dark-green.js" />
+    <Content Include="Content\js\highcharts\themes\gray.js" />
+    <Content Include="Content\js\highcharts\themes\grid.js" />
+    <Content Include="Content\js\highcharts\themes\skies.js" />
+    <Content Include="Content\js\index.js" />
+    <Content Include="Content\js\indextab.js" />
+    <Content Include="Content\js\jqgrid\grid.locale-cn.js" />
+    <Content Include="Content\js\jqgrid\jqgrid.css" />
+    <Content Include="Content\js\jqgrid\jqgrid.min.js" />
+    <Content Include="Content\js\jqprint\jquery.jqprint-0.3.js" />
+    <Content Include="Content\js\jqprint\jquery.jqprint.css" />
+    <Content Include="Content\js\jquery-ui\images\calendar.gif" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\js\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\js\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\js\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\js\jquery.blockUI.js" />
+    <Content Include="Content\js\jquery\jquery-2.1.1.min.js" />
+    <Content Include="Content\js\jquery\jquery-2.1.4.min.js" />
+    <Content Include="Content\js\layout\jquery.layout.js" />
+    <Content Include="Content\js\loading\pace.min.js" />
+    <Content Include="Content\js\md5\jquery.md5.js" />
+    <Content Include="Content\js\qrcode\jquery.qrcode.js" />
+    <Content Include="Content\js\qrcode\qrcode.js" />
+    <Content Include="Content\js\select2\select2.min.css" />
+    <Content Include="Content\js\select2\select2.min.js" />
+    <Content Include="Content\js\sweetalert.min.js" />
+    <Content Include="Content\js\toastr.min.js" />
+    <Content Include="Content\js\validate\jquery.validate.min.js" />
+    <Content Include="Content\js\wdtree\images\icons\add.png" />
+    <Content Include="Content\js\wdtree\images\icons\addStep.gif" />
+    <Content Include="Content\js\wdtree\images\icons\addStep_dsbl.gif" />
+    <Content Include="Content\js\wdtree\images\icons\btn-arrow.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Btn.Close.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Btn.Refresh.gif" />
+    <Content Include="Content\js\wdtree\images\icons\cal.gif" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_0.gif" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_0.png" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_1.gif" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_1.png" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_2.gif" />
+    <Content Include="Content\js\wdtree\images\icons\checkbox_2.png" />
+    <Content Include="Content\js\wdtree\images\icons\circle_animation.gif" />
+    <Content Include="Content\js\wdtree\images\icons\delete.png" />
+    <Content Include="Content\js\wdtree\images\icons\delItem.gif" />
+    <Content Include="Content\js\wdtree\images\icons\delItem_dsbl.gif" />
+    <Content Include="Content\js\wdtree\images\icons\edit.png" />
+    <Content Include="Content\js\wdtree\images\icons\folder_close.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico1.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico2.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico3.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4-1-1.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4-1.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4-2.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4-3.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4-4.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico4.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico5.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico6-1.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico6-2.gif" />
+    <Content Include="Content\js\wdtree\images\icons\ico6.gif" />
+    <Content Include="Content\js\wdtree\images\icons\indicator.gif" />
+    <Content Include="Content\js\wdtree\images\icons\information.png" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Add.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Delete.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Edit.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Input.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Save.gif" />
+    <Content Include="Content\js\wdtree\images\icons\Item.Search.gif" />
+    <Content Include="Content\js\wdtree\images\icons\none.gif" />
+    <Content Include="Content\js\wdtree\images\icons\note.gif" />
+    <Content Include="Content\js\wdtree\images\icons\rowdelete.png" />
+    <Content Include="Content\js\wdtree\images\icons\s.gif" />
+    <Content Include="Content\js\wdtree\images\icons\table_refresh.png" />
+    <Content Include="Content\js\wdtree\images\icons\view.png" />
+    <Content Include="Content\js\wdtree\images\tree\arrows.gif" />
+    <Content Include="Content\js\wdtree\images\tree\cbs.gif" />
+    <Content Include="Content\js\wdtree\images\tree\drop-yes.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-end-minus-nl.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-end-minus.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-end-plus-nl.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-end-plus.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-end.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-line.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-minus-nl.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-minus.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-plus-nl.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow-plus.gif" />
+    <Content Include="Content\js\wdtree\images\tree\elbow.gif" />
+    <Content Include="Content\js\wdtree\images\tree\folder-open.gif" />
+    <Content Include="Content\js\wdtree\images\tree\folder.gif" />
+    <Content Include="Content\js\wdtree\images\tree\leaf.gif" />
+    <Content Include="Content\js\wdtree\images\tree\loading.gif" />
+    <Content Include="Content\js\wdtree\tree.css" />
+    <Content Include="Content\js\wdtree\tree.js" />
+    <Content Include="Content\MoBan\css\animate.css" />
+    <Content Include="Content\MoBan\css\bootstrap.css" />
+    <Content Include="Content\MoBan\css\bootstrap.min.css" />
+    <Content Include="Content\MoBan\css\patterns\1.png" />
+    <Content Include="Content\MoBan\css\patterns\2.png" />
+    <Content Include="Content\MoBan\css\patterns\3.png" />
+    <Content Include="Content\MoBan\css\patterns\4.png" />
+    <Content Include="Content\MoBan\css\patterns\5.png" />
+    <Content Include="Content\MoBan\css\patterns\6.png" />
+    <Content Include="Content\MoBan\css\patterns\7.png" />
+    <Content Include="Content\MoBan\css\patterns\congruent_pentagon.png" />
+    <Content Include="Content\MoBan\css\patterns\header-profile-skin-1.png" />
+    <Content Include="Content\MoBan\css\patterns\header-profile-skin-2.png" />
+    <Content Include="Content\MoBan\css\patterns\header-profile-skin-3.png" />
+    <Content Include="Content\MoBan\css\patterns\header-profile.png" />
+    <Content Include="Content\MoBan\css\patterns\otis_redding.png" />
+    <Content Include="Content\MoBan\css\patterns\shattered.png" />
+    <Content Include="Content\MoBan\css\patterns\triangular.png" />
+    <Content Include="Content\MoBan\css\plugins\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\css\blueimp-gallery-indicator.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\css\blueimp-gallery-video.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\css\blueimp-gallery.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\css\blueimp-gallery.min.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\css\demo.css" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\error.png" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\error.svg" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\loading.gif" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\play-pause.png" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\play-pause.svg" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\video-play.png" />
+    <Content Include="Content\MoBan\css\plugins\blueimp\img\video-play.svg" />
+    <Content Include="Content\MoBan\css\plugins\bootstrap-markdown\bootstrap-markdown.min.css" />
+    <Content Include="Content\MoBan\css\plugins\bootstrap-rtl\bootstrap-rtl.css" />
+    <Content Include="Content\MoBan\css\plugins\bootstrap-rtl\bootstrap-rtl.min.css" />
+    <Content Include="Content\MoBan\css\plugins\bootstrapTour\bootstrap-tour.min.css" />
+    <Content Include="Content\MoBan\css\plugins\bootstrapValidator.css" />
+    <Content Include="Content\MoBan\css\plugins\c3\c3.min.css" />
+    <Content Include="Content\MoBan\css\plugins\chartist\chartist.min.css" />
+    <Content Include="Content\MoBan\css\plugins\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\MoBan\css\plugins\chosen\chosen-sprite.png" />
+    <Content Include="Content\MoBan\css\plugins\chosen\chosen.css" />
+    <Content Include="Content\MoBan\css\plugins\clockpicker\clockpicker.css" />
+    <Content Include="Content\MoBan\css\plugins\codemirror\ambiance.css" />
+    <Content Include="Content\MoBan\css\plugins\codemirror\codemirror.css" />
+    <Content Include="Content\MoBan\css\plugins\colorpicker\bootstrap-colorpicker.min.css" />
+    <Content Include="Content\MoBan\css\plugins\cropper\cropper.min.css" />
+    <Content Include="Content\MoBan\css\plugins\datapicker\datepicker3.css" />
+    <Content Include="Content\MoBan\css\plugins\dataTables\datatables.min.css" />
+    <Content Include="Content\MoBan\css\plugins\daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="Content\MoBan\css\plugins\dropzone\basic.css" />
+    <Content Include="Content\MoBan\css\plugins\dropzone\dropzone.css" />
+    <Content Include="Content\MoBan\css\plugins\footable\fonts\footable.svg" />
+    <Content Include="Content\MoBan\css\plugins\footable\footable.core.css" />
+    <Content Include="Content\MoBan\css\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="Content\MoBan\css\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\MoBan\css\plugins\iCheck\custom.css" />
+    <Content Include="Content\MoBan\css\plugins\iCheck\green%402x.png" />
+    <Content Include="Content\MoBan\css\plugins\iCheck\green.png" />
+    <Content Include="Content\MoBan\css\plugins\images\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="Content\MoBan\css\plugins\images\bootstrap-colorpicker\alpha.png" />
+    <Content Include="Content\MoBan\css\plugins\images\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="Content\MoBan\css\plugins\images\bootstrap-colorpicker\hue.png" />
+    <Content Include="Content\MoBan\css\plugins\images\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sort.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sort_asc.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sort_desc.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sprite-skin-flat.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sprite-skin-flat2.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sprite-skin-nice.png" />
+    <Content Include="Content\MoBan\css\plugins\images\sprite-skin-simple.png" />
+    <Content Include="Content\MoBan\css\plugins\images\spritemap%402x.png" />
+    <Content Include="Content\MoBan\css\plugins\images\spritemap.png" />
+    <Content Include="Content\MoBan\css\plugins\ionRangeSlider\ion.rangeSlider.css" />
+    <Content Include="Content\MoBan\css\plugins\ionRangeSlider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Content\MoBan\css\plugins\ionRangeSlider\ion.rangeSlider.skinNice.css" />
+    <Content Include="Content\MoBan\css\plugins\ionRangeSlider\ion.rangeSlider.skinSimple.css" />
+    <Content Include="Content\MoBan\css\plugins\jasny\jasny-bootstrap.min.css" />
+    <Content Include="Content\MoBan\css\plugins\jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\animated-overlay.gif" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\jquery-ui-1.10.4.custom.min.css" />
+    <Content Include="Content\MoBan\css\plugins\jQueryUI\jquery-ui.css" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\32px.png" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\39px.png" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\40px.png" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\style.css" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\style.min.css" />
+    <Content Include="Content\MoBan\css\plugins\jsTree\throbber.gif" />
+    <Content Include="Content\MoBan\css\plugins\ladda\ladda-themeless.min.css" />
+    <Content Include="Content\MoBan\css\plugins\ladda\ladda.min.css" />
+    <Content Include="Content\MoBan\css\plugins\morris\morris-0.4.3.min.css" />
+    <Content Include="Content\MoBan\css\plugins\nouslider\jquery.nouislider.css" />
+    <Content Include="Content\MoBan\css\plugins\select2\select2.min.css" />
+    <Content Include="Content\MoBan\css\plugins\slick\ajax-loader.gif" />
+    <Content Include="Content\MoBan\css\plugins\slick\fonts\slick.svg" />
+    <Content Include="Content\MoBan\css\plugins\slick\slick-theme.css" />
+    <Content Include="Content\MoBan\css\plugins\slick\slick.css" />
+    <Content Include="Content\MoBan\css\plugins\social-buttons\social-buttons.css" />
+    <Content Include="Content\MoBan\css\plugins\steps\jquery.steps.css" />
+    <Content Include="Content\MoBan\css\plugins\summernote\summernote-bs3.css" />
+    <Content Include="Content\MoBan\css\plugins\summernote\summernote.css" />
+    <Content Include="Content\MoBan\css\plugins\sweetalert\sweetalert.css" />
+    <Content Include="Content\MoBan\css\plugins\switchery\switchery.css" />
+    <Content Include="Content\MoBan\css\plugins\toastr\toastr.min.css" />
+    <Content Include="Content\MoBan\css\plugins\touchspin\jquery.bootstrap-touchspin.min.css" />
+    <Content Include="Content\MoBan\css\style.css" />
+    <Content Include="Content\MoBan\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\MoBan\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\MoBan\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\MoBan\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\MoBan\js\bootstrap.js" />
+    <Content Include="Content\MoBan\js\bootstrap.min.js" />
+    <Content Include="Content\MoBan\js\inspinia.js" />
+    <Content Include="Content\MoBan\js\jquery-2.1.1.js" />
+    <Content Include="Content\MoBan\js\jquery-ui-1.10.4.min.js" />
+    <Content Include="Content\MoBan\js\jquery-ui.custom.min.js" />
+    <Content Include="Content\MoBan\js\plugins\blueimp\jquery.blueimp-gallery.min.js" />
+    <Content Include="Content\MoBan\js\plugins\bootstrap-markdown\bootstrap-markdown.js" />
+    <Content Include="Content\MoBan\js\plugins\bootstrap-markdown\markdown.js" />
+    <Content Include="Content\MoBan\js\plugins\bootstrapTour\bootstrap-tour.min.js" />
+    <Content Include="Content\MoBan\js\plugins\c3\c3.min.js" />
+    <Content Include="Content\MoBan\js\plugins\chartist\chartist.min.js" />
+    <Content Include="Content\MoBan\js\plugins\chartJs\Chart.min.js" />
+    <Content Include="Content\MoBan\js\plugins\chartJs\echarts.js" />
+    <Content Include="Content\MoBan\js\plugins\chartJs\echarts.min.js" />
+    <Content Include="Content\MoBan\js\plugins\chosen\chosen.jquery.js" />
+    <Content Include="Content\MoBan\js\plugins\clipboard\clipboard.min.js" />
+    <Content Include="Content\MoBan\js\plugins\clockpicker\clockpicker.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\codemirror.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\apl\apl.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\apl\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\asterisk\asterisk.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\asterisk\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\clike\clike.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\clike\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\clike\scala.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\clojure\clojure.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\clojure\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\cobol\cobol.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\cobol\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\coffeescript\coffeescript.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\coffeescript\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\commonlisp\commonlisp.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\commonlisp\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\css.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\less.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\less_test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\scss.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\scss_test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\css\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\cypher\cypher.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\cypher\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\diff\diff.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\diff\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\django\django.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\django\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\dtd\dtd.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\dtd\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\dylan\dylan.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\dylan\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\d\d.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\d\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ecl\ecl.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ecl\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\eiffel\eiffel.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\eiffel\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\erlang\erlang.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\erlang\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\fortran\fortran.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\fortran\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gas\gas.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gas\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gfm\gfm.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gfm\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gfm\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gherkin\gherkin.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\gherkin\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\go\go.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\go\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\groovy\groovy.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\groovy\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haml\haml.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haml\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haml\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haskell\haskell.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haskell\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haxe\haxe.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\haxe\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\htmlembedded\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\htmlmixed\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\http\http.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\http\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\jade\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\jade\jade.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\javascript\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\javascript\javascript.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\javascript\json-ld.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\javascript\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\javascript\typescript.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\jinja2\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\jinja2\jinja2.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\julia\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\julia\julia.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\kotlin\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\kotlin\kotlin.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\livescript\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\livescript\livescript.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\lua\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\lua\lua.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\markdown\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\markdown\markdown.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\markdown\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\meta.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\mirc\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\mirc\mirc.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\mllike\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\mllike\mllike.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\modelica\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\modelica\modelica.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\nginx\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\nginx\nginx.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ntriples\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ntriples\ntriples.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\octave\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\octave\octave.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pascal\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pascal\pascal.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pegjs\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pegjs\pegjs.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\perl\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\perl\perl.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\php\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\php\php.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\php\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pig\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\pig\pig.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\properties\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\properties\properties.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\puppet\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\puppet\puppet.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\python\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\python\python.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\q\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\q\q.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rpm\changes\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rpm\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rpm\rpm.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rst\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rst\rst.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ruby\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ruby\ruby.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\ruby\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rust\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\rust\rust.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\r\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\r\r.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sass\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sass\sass.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\scheme\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\scheme\scheme.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\shell\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\shell\shell.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\shell\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sieve\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sieve\sieve.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\slim\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\slim\slim.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\slim\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smalltalk\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smalltalk\smalltalk.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smartymixed\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smartymixed\smartymixed.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smarty\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\smarty\smarty.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\solr\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\solr\solr.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sparql\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sparql\sparql.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sql\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\sql\sql.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\stex\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\stex\stex.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\stex\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tcl\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tcl\tcl.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\textile\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\textile\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\textile\textile.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiddlywiki\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiddlywiki\tiddlywiki.css" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiddlywiki\tiddlywiki.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiki\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiki\tiki.css" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tiki\tiki.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\toml\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\toml\toml.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tornado\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\tornado\tornado.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\turtle\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\turtle\turtle.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\vbscript\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\vbscript\vbscript.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\vb\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\vb\vb.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\velocity\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\velocity\velocity.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\verilog\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\verilog\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\verilog\verilog.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xml\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xml\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xml\xml.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xquery\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xquery\test.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\xquery\xquery.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\yaml\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\yaml\yaml.js" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\z80\index.html" />
+    <Content Include="Content\MoBan\js\plugins\codemirror\mode\z80\z80.js" />
+    <Content Include="Content\MoBan\js\plugins\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="Content\MoBan\js\plugins\cropper\cropper.min.js" />
+    <Content Include="Content\MoBan\js\plugins\d3\d3.min.js" />
+    <Content Include="Content\MoBan\js\plugins\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Content\MoBan\js\plugins\datapicker\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Content\MoBan\js\plugins\dataTables\datatables.min.js" />
+    <Content Include="Content\MoBan\js\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="Content\MoBan\js\plugins\diff_match_patch\javascript\diff_match_patch.js" />
+    <Content Include="Content\MoBan\js\plugins\diff_match_patch\README.txt" />
+    <Content Include="Content\MoBan\js\plugins\dotdotdot\jquery.dotdotdot.min.js" />
+    <Content Include="Content\MoBan\js\plugins\dropzone\dropzone.js" />
+    <Content Include="Content\MoBan\js\plugins\easypiechart\easypiechart.js" />
+    <Content Include="Content\MoBan\js\plugins\easypiechart\jquery.easypiechart.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\curvedLines.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\excanvas.min.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.spline.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.time.js" />
+    <Content Include="Content\MoBan\js\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\MoBan\js\plugins\footable\footable.all.min.js" />
+    <Content Include="Content\MoBan\js\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Content\MoBan\js\plugins\fullcalendar\moment.min.js" />
+    <Content Include="Content\MoBan\js\plugins\gritter\images\gritter-light.png" />
+    <Content Include="Content\MoBan\js\plugins\gritter\images\gritter-long.png" />
+    <Content Include="Content\MoBan\js\plugins\gritter\images\gritter.png" />
+    <Content Include="Content\MoBan\js\plugins\gritter\images\ie-spacer.gif" />
+    <Content Include="Content\MoBan\js\plugins\gritter\jquery.gritter.css" />
+    <Content Include="Content\MoBan\js\plugins\gritter\jquery.gritter.min.js" />
+    <Content Include="Content\MoBan\js\plugins\i18next\i18next.min.js" />
+    <Content Include="Content\MoBan\js\plugins\iCheck\icheck.min.js" />
+    <Content Include="Content\MoBan\js\plugins\idle-timer\idle-timer.min.js" />
+    <Content Include="Content\MoBan\js\plugins\ionRangeSlider\ion.rangeSlider.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jasny\jasny-bootstrap.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jeditable\jquery.jeditable.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-ar.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-bg.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-bg1251.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-cat.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-cn.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-cs.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-da.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-de.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-dk.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-el.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-en.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-es.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-fa.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-fi.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-fr.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-gl.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-he.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-hr.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-hr1250.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-hu.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-id.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-is.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-it.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-ja.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-kr.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-lt.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-mne.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-nl.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-no.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-pl.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-pt-br.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-pt.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-ro.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-ru.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-sk.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-sr.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-sv.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-th.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-tr.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-tw.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-ua.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\i18n\grid.locale-vi.js" />
+    <Content Include="Content\MoBan\js\plugins\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery-ui-i18n.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-af.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ar-DZ.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ar.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-az.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-be.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-bg.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-bs.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ca.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-cs.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-cy-GB.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-da.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-de.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-el.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-en-AU.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-en-GB.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-en-NZ.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-eo.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-es.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-et.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-eu.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fa.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fi.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fo.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fr-CA.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fr-CH.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-fr.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-gl.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-he.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-hi.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-hr.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-hu.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-hy.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-id.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-is.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-it.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ja.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ka.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-kk.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-km.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ko.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ky.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-lb.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-lt.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-lv.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-mk.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ml.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ms.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-nb.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-nl-BE.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-nl.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-nn.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-no.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-pl.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-pt-BR.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-pt.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-rm.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ro.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ru.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sk.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sl.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sq.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sr-SR.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sr.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-sv.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-ta.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-th.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-tj.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-tr.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-uk.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-vi.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-zh-CN.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-zh-HK.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\i18n\jquery.ui.datepicker-zh-TW.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\animated-overlay.gif" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\jquery-ui.css" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\jquery-ui.js" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\MoBan\js\plugins\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jsKnob\jquery.knob.js" />
+    <Content Include="Content\MoBan\js\plugins\jsTree\jstree.min.js" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\jquery.justifiedgallery.css" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\jquery.justifiedgallery.js" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\jquery.justifiedgallery.min.css" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\jquery.justifiedgallery.min.js" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\loading.gif" />
+    <Content Include="Content\MoBan\js\plugins\jvectormap\jquery-jvectormap-2.0.2.css" />
+    <Content Include="Content\MoBan\js\plugins\jvectormap\jquery-jvectormap-2.0.2.min.js" />
+    <Content Include="Content\MoBan\js\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Content\MoBan\js\plugins\ladda\ladda.jquery.min.js" />
+    <Content Include="Content\MoBan\js\plugins\ladda\ladda.min.js" />
+    <Content Include="Content\MoBan\js\plugins\ladda\spin.min.js" />
+    <Content Include="Content\MoBan\js\plugins\masonary\masonry.pkgd.min.js" />
+    <Content Include="Content\MoBan\js\plugins\metisMenu\jquery.metisMenu.js" />
+    <Content Include="Content\MoBan\js\plugins\morris\morris.js" />
+    <Content Include="Content\MoBan\js\plugins\morris\raphael-2.1.0.min.js" />
+    <Content Include="Content\MoBan\js\plugins\nestable\jquery.nestable.js" />
+    <Content Include="Content\MoBan\js\plugins\nouslider\jquery.nouislider.min.js" />
+    <Content Include="Content\MoBan\js\plugins\pace\pace.min.js" />
+    <Content Include="Content\MoBan\js\plugins\peity\jquery.peity.min.js" />
+    <Content Include="Content\MoBan\js\plugins\preetyTextDiff\jquery.pretty-text-diff.min.js" />
+    <Content Include="Content\MoBan\js\plugins\rickshaw\rickshaw.min.js" />
+    <Content Include="Content\MoBan\js\plugins\rickshaw\vendor\d3.v3.js" />
+    <Content Include="Content\MoBan\js\plugins\select2\select2.full.min.js" />
+    <Content Include="Content\MoBan\js\plugins\slick\slick.min.js" />
+    <Content Include="Content\MoBan\js\plugins\slimscroll\jquery.slimscroll.js" />
+    <Content Include="Content\MoBan\js\plugins\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\MoBan\js\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="Content\MoBan\js\plugins\staps\jquery.steps.js" />
+    <Content Include="Content\MoBan\js\plugins\staps\jquery.steps.min.js" />
+    <Content Include="Content\MoBan\js\plugins\summernote\summernote-zh-CN.js" />
+    <Content Include="Content\MoBan\js\plugins\summernote\summernote.js" />
+    <Content Include="Content\MoBan\js\plugins\summernote\summernote.min.js" />
+    <Content Include="Content\MoBan\js\plugins\sweetalert\sweetalert.min.js" />
+    <Content Include="Content\MoBan\js\plugins\switchery\switchery.js" />
+    <Content Include="Content\MoBan\js\plugins\tinycon\tinycon.min.js" />
+    <Content Include="Content\MoBan\js\plugins\toastr\toastr.min.js" />
+    <Content Include="Content\MoBan\js\plugins\touchspin\jquery.bootstrap-touchspin.min.js" />
+    <Content Include="Content\MoBan\js\plugins\validate\bootstrapValidator.min.js" />
+    <Content Include="Content\MoBan\js\plugins\validate\jquery.validate.min.js" />
+    <Content Include="Content\MoBan\js\plugins\validate\zh_CN.js" />
+    <Content Include="Content\MoBan\js\plugins\video\responsible-video.js" />
+    <Content Include="Content\MoBan\js\plugins\wow\wow.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\ui.jqgrid.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Index.html" />
+    <Content Include="Scripts\bootstrap-paginator.min.js" />
+    <Content Include="Scripts\bootstrap-table-zh-CN.js" />
+    <Content Include="Scripts\bootstrap-table.css" />
+    <Content Include="Scripts\bootstrap-table.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot%40" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regulard41d.eot" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.eot" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Content\fonts\weathericons-regular-webfont.woff" />
+    <Content Include="Content\fonts\weathericons-regular-webfontd41d.eot" />
+    <Content Include="Configs\log4net.config" />
+    <Content Include="Areas\SystemManage\Views\web.config" />
+    <Content Include="Areas\SystemManage\Views\User\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\SystemManage\Views\User\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Module\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Module\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Role\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Role\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsType\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsType\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsData\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsData\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsData\DetailModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ItemsType\DetailModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\User\UpdatePwdModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\web.config" />
+    <Content Include="Areas\ContentManage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\web.config" />
+    <Content Include="Areas\AuxiliaryManag\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\Message\Index.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\QuestionManage\Index.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\QuestionManage\CreateModel.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\DownloadManage\Index.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\LinkManage\Index.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\LinkManage\CreateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Module\ButtonUpdateModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\Module\CreateButtonModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\MemberManage\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\MemberManage\CreateModel.cshtml" />
+    <Content Include="Content\MoBan\css\bootstrap.css.map" />
+    <Content Include="Content\MoBan\css\bootstrap.min.css.map" />
+    <Content Include="Content\MoBan\css\plugins\bootstrap-rtl\bootstrap-rtl.css.map" />
+    <Content Include="Content\MoBan\css\plugins\footable\fonts\footable.eot" />
+    <Content Include="Content\MoBan\css\plugins\footable\fonts\footable.ttf" />
+    <Content Include="Content\MoBan\css\plugins\footable\fonts\footable.woff" />
+    <Content Include="Content\MoBan\css\plugins\slick\fonts\slick.eot" />
+    <Content Include="Content\MoBan\css\plugins\slick\fonts\slick.ttf" />
+    <Content Include="Content\MoBan\css\plugins\slick\fonts\slick.woff" />
+    <Content Include="Content\MoBan\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\MoBan\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\MoBan\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\MoBan\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\MoBan\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\MoBan\font-awesome\less\animated.less" />
+    <Content Include="Content\MoBan\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\MoBan\font-awesome\less\core.less" />
+    <Content Include="Content\MoBan\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\MoBan\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\MoBan\font-awesome\less\icons.less" />
+    <Content Include="Content\MoBan\font-awesome\less\larger.less" />
+    <Content Include="Content\MoBan\font-awesome\less\list.less" />
+    <Content Include="Content\MoBan\font-awesome\less\mixins.less" />
+    <Content Include="Content\MoBan\font-awesome\less\path.less" />
+    <Content Include="Content\MoBan\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\MoBan\font-awesome\less\stacked.less" />
+    <Content Include="Content\MoBan\font-awesome\less\variables.less" />
+    <Content Include="Content\MoBan\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_core.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_list.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_path.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\MoBan\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\MoBan\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\MoBan\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\MoBan\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\MoBan\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\MoBan\js\plugins\chartist\chartist.min.js.map" />
+    <Content Include="Content\MoBan\js\plugins\diff_match_patch\COPYING" />
+    <Content Include="Content\MoBan\js\plugins\justified-gallery\README.md" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\Index.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\CreateModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\Message\CreateModel.cshtml" />
+    <Content Include="Content\MoBan\css\plugins\summernote\font\summernote.eot" />
+    <Content Include="Content\MoBan\css\plugins\summernote\font\summernote.ttf" />
+    <Content Include="Content\MoBan\css\plugins\summernote\font\summernote.woff" />
+    <Content Include="Areas\AuxiliaryManag\Views\Message\DetailModel.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ClassifySet\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\ClassifySet\CreateModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\Index.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\EditLableModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\DetailModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\EditLableModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\CreateModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\CreateModelAloneUploadFile.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\CreateInformationModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\CreateModelMixtureUploadFile.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\CreateInformationWordModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\DetailInformationModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\DetailInfomationWordModel.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\DetailModelAlone.cshtml" />
+    <Content Include="Areas\ContentManage\Views\Auditing\DetailModelMixture.cshtml" />
+    <Content Include="Areas\AuxiliaryManag\Views\Subscription\Index.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\ShowInfo.cshtml" />
+    <Content Include="Areas\ContentManage\Views\DocumentUpload\ShowPdfInfo.cshtml" />
+    <Content Include="Areas\SystemManage\Views\MemberUpgradeApply\Index.cshtml" />
+    <Content Include="Areas\SystemManage\Views\MemberUpgradeApply\CreateModel.cshtml" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jqGrid\grid.locale-en.js" />
+    <Content Include="Scripts\jqGrid\jquery.jqAutoComplete.min.js" />
+    <Content Include="Scripts\jqGrid\jquery.jqDatePicker.min.js" />
+    <Content Include="Scripts\jqGrid\jquery.jqGrid.js" />
+    <Content Include="Scripts\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="ShowArticle\article.html" />
+    <Content Include="ShowArticle\css\article.css" />
+    <Content Include="ShowArticle\css\detailed.css" />
+    <Content Include="ShowArticle\css\faguidongtailiebiao.css" />
+    <Content Include="ShowArticle\css\footer.css" />
+    <Content Include="ShowArticle\css\header.css" />
+    <Content Include="ShowArticle\css\login.css" />
+    <Content Include="ShowArticle\css\navCenter.css" />
+    <Content Include="ShowArticle\css\personMain.css" />
+    <Content Include="ShowArticle\css\register.css" />
+    <Content Include="ShowArticle\css\retrieve.css" />
+    <Content Include="ShowArticle\css\search.css" />
+    <Content Include="ShowArticle\css\skinnight.css" />
+    <Content Include="ShowArticle\css\standarSeach.css" />
+    <Content Include="ShowArticle\css\style.css" />
+    <Content Include="ShowArticle\images\bg.png" />
+    <Content Include="ShowArticle\images\bg1.png" />
+    <Content Include="ShowArticle\images\bg2.png" />
+    <Content Include="ShowArticle\images\bg3.png" />
+    <Content Include="ShowArticle\images\bg4.png" />
+    <Content Include="ShowArticle\images\bg6.png" />
+    <Content Include="ShowArticle\images\search.png" />
+    <Content Include="ShowArticle\images\total.png" />
+    <Content Include="ShowArticle\js\article.js" />
+    <Content Include="ShowArticle\js\layer\layer.js" />
+    <Content Include="ShowArticle\js\layer\mobile\layer.js" />
+    <Content Include="ShowArticle\js\layer\mobile\need\layer.css" />
+    <Content Include="ShowArticle\js\layer\theme\default\icon-ext.png" />
+    <Content Include="ShowArticle\js\layer\theme\default\icon.png" />
+    <Content Include="ShowArticle\js\layer\theme\default\layer.css" />
+    <Content Include="ShowArticle\js\layer\theme\default\loading-0.gif" />
+    <Content Include="ShowArticle\js\layer\theme\default\loading-1.gif" />
+    <Content Include="ShowArticle\js\layer\theme\default\loading-2.gif" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="ShowArticle\css\article.css.map" />
+    <Content Include="ShowArticle\css\article.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\AuxiliaryManag\Models\" />
+    <Folder Include="Areas\SystemManage\Models\" />
+    <Folder Include="Temp\" />
+    <Folder Include="Views\ClientsData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\CustomCommon.csproj">
+      <Project>{7b22a29a-f5d1-4f25-b3d9-97c48b60caed}</Project>
+      <Name>CustomCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Application\NFine.Application.csproj">
+      <Project>{f2035ee2-b73d-4fb8-a433-cab465de6a2a}</Project>
+      <Name>NFine.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Code\NFine.Code.csproj">
+      <Project>{db19ce03-c307-43fe-a209-08aa4ae10e21}</Project>
+      <Name>NFine.Code</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Data\NFine.Data.csproj">
+      <Project>{f71003e8-a836-48f4-9df6-df9095cebd18}</Project>
+      <Name>NFine.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Domain\NFine.Domain.csproj">
+      <Project>{7dc886cd-b8a0-44e8-aadd-57fcb0cfecb8}</Project>
+      <Name>NFine.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFine.Mapping\NFine.Mapping.csproj">
+      <Project>{4e642cbe-f6c5-4cb9-9474-6b349652fe77}</Project>
+      <Name>NFine.Mapping</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>29344</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:29344/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

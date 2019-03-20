@@ -1,0 +1,51 @@
+﻿using NFine.Data;
+using NFine.Domain.Entity.SystemManage;
+using NFine.Domain.IRepository.SystemManage;
+using NFine.Repository.SystemManage;
+using System.Collections.Generic;
+
+namespace NFine.Repository.SystemManage
+{
+    public class RoleRepository : RepositoryBase<RoleEntity>, IRoleRepository
+    {
+        public void DeleteForm(string keyValue)
+        {
+            using (var db = new RepositoryBase().BeginTrans())
+            {
+                db.Delete<RoleEntity>(t => t.F_Id == keyValue);
+                db.Delete<RoleAuthorizeEntity>(t => t.F_ObjectId == keyValue);
+                db.Commit();
+            }
+        }
+        public void SubmitForm(RoleEntity roleEntity, List<RoleAuthorizeEntity> roleAuthorizeEntitys, string keyValue)
+        {
+			//if (string.IsNullOrEmpty(keyValue))
+			//{
+			//	entity.Create();
+			//	db.Insert(entity);
+			//}
+			//else
+			//{
+			//	entity.Modify(keyValue);
+			//	db.Update(entity);
+			//}
+			using (var db = new RepositoryBase().BeginTrans())
+            {
+                if (!string.IsNullOrEmpty(keyValue))
+                {
+					roleEntity.Modify(keyValue);
+					db.Update(roleEntity);
+                }
+                else
+                {
+                    roleEntity.F_Category = 1;
+					roleEntity.Create();
+					db.Insert(roleEntity);
+                }
+                db.Delete<RoleAuthorizeEntity>(t => t.F_ObjectId == roleEntity.F_Id);
+                db.Insert(roleAuthorizeEntitys);
+                db.Commit();
+            }
+        }
+    }
+}

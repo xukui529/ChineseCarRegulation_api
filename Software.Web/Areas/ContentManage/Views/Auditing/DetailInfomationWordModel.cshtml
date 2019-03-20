@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Title = "新建文档";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    /*1、可以单独上传中文 或者英文
+    * 2、下一步 只预览，不编辑，内容显示为上中文 下英文
+    * 3、分别保存俩html 俩pdf pdf与html名称一致后缀不同
+    * 4、不用生成混排html
+    * */
+    var thisEditType = 1;//只预览
+    var thisTab = 1;//当前页tab
+   var strEditId = '@ViewData["id"]';
+
+	$(function () {
+        $("#liUpPage").hide();
+        $("#liDownPage").show(); 
+
+        $('#btnPreviewFile').css("display", "none");
+        $('#btnPreviewEdit').css("display", "none");
+        //全部
+
+		Date.prototype.Format = function (fmt) {
+			var o = {
+				"M+": this.getMonth() + 1,
+				"d+": this.getDate(),
+				"h+": this.getHours(),
+				"m+": this.getMinutes(),
+				"s+": this.getSeconds(),
+				"q+": Math.floor((this.getMonth() + 3) / 3),
+				"S": this.getMilliseconds()
+			};
+			if (/(y+)/.test(fmt))
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt))
+					fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+        }
+
+        if (strEditId != '' && strEditId != null) {
+            $("#hidTotalUrl").val('@Model.F_TotalUrl');
+            $("#hidChineseUrl").val('@Model.F_ChineseUrl');
+            $("#hidEnglishUrl").val('@Model.F_EnglishUrl');
+            $("#hidHtmlContent").val('@Model.F_HtmlUrl');
+            document.getElementById("F_Label").innerHTML = '@Model.F_Label';
+        }
+
+        loadSecendTabData();
+       
+	});
+
+  
+    function setTab(cursel) {
+
+        if (thisTab == 1 && cursel == 1) {
+            //第1页，点了第1页，不操作
+        } else if (thisTab == 2 && cursel == 1) {
+            tabChang(1);
+            //第2页，点了第1页 等于上一步 不操作
+        } else if (thisTab == 1 && cursel == 2) {
+            tabChang(2);
+            //第1页，点了第2页 等于下一步 验证表单，并且上传
+        } else if (thisTab == 2 && cursel == 2) {
+            //第2页，点了第2页 不操作
+        }
+    } 
+    
+    function tabChang(cursel) {
+        for (i = 1; i <= 2; i++) {
+            var menu = document.getElementById('a' + i);
+            var con = document.getElementById("con_a_" + i);
+            menu.className = i == cursel ? "curr" : "";
+            con.style.display = i == cursel ? "block" : "none";
+        }
+        thisTab = cursel;
+        if (cursel == 1) {
+            loadSecendTabData();
+            $("#liUpPage").hide();
+            $("#liDownPage").show(); 
+        }
+        else if (cursel == 2) {
+            $("#liUpPage").show();
+            $("#liDownPage").hide(); 
+        }
+    }
+
+    function loadSecendTabData() {
+        var chineseUrl=  $("#hidChineseUrl").val();//至少一个有值
+        var englishUrl = $("#hidEnglishUrl").val();
+		$('#note1').summernote({
+			lang: 'zh-CN',
+			codemirror: {
+				theme: 'monokai'
+			},
+			disableDragAndDrop: true,
+		});
+        if (strEditId != '' && strEditId != null) {
+            isEdit = true;
+            $('#note1').summernote('destroy');// 编辑进来的 直接销毁
+        }
+        $.blockUI({
+            message: '<h2 style="color:black;font-size: 14px;"><br>数据加载中...</h2><br>'
+        });
+        $.ajax({
+            url: '/ContentManage/DocumentUpload/GetWordContentZYW?chineseUrl=' + chineseUrl + "&englishUrl=" + englishUrl,
+            datatype: 'json',
+            type: 'get',
+            async: true,
+            success: function (result) {
+                //预览用 先显示出来
+                if (result != '' && result != null) {
+                    $('#note1').summernote('code', result);
+                    $('#note1').summernote('destroy');
+                    $.unblockUI();
+                }
+            }
+        });
+    }
+      function Audit(status) {
+
+        $.ajax({
+            url: '/ContentManage/Auditing/Audit?keyValue=' + strEditId+ '&status=' + status,
+            datatype: 'json',
+            type: 'get',
+            async: false,
+            success: function (result) {
+                if (result != '' && result != null && result == 1) {
+                    alert("操作成功");
+                    window.location.href = "/ContentManage/Auditing/Index";
+                }
+            }
+        });
+    }
+</script>
+<style>
+    p:hover {
+        background: #e8e8e8;
+    }
+    .tab {
+        height: 23px;
+    }
+
+        .tab ul {
+            list-style: none;
+        }
+
+        .tab li {
+            border: 1px solid #ccc;
+            background: #eee;
+            cursor: pointer;
+            display: block;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            width: 200px;
+            font-size: 12px;
+            height: 21px;
+            line-height: 21px;
+            margin: 0 2px;
+            position: relative;
+            top: 1px;
+            z-index: 9;
+        }
+
+            .tab li:hover {
+                text-decoration: underline;
+            }
+
+            .tab li.curr {
+                background: #fff;
+                border-bottom-color: #fff;
+                cursor: default;
+                font-weight: bold;
+            }
+
+    .cc {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>内容管理</a>
+            </li>
+            <li class="active">
+                <strong>文档上传</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查看文档</h5>
+                </div>
+                <div class="ibox-content">
+                    <form id="form" class="wizard-big">
+                        <div class="tab">
+                            <ul>
+                                <li id="a1" onclick="setTab(1)" class="curr">详情</li>
+                                <li id="a2" onclick="setTab(2)">元数据</li>
+                            </ul>
+                        </div>
+                        <div id="con_a_1" class="cc">
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="button" value="预览" id="btnPreviewFile" class="btn btn-info" onclick="previewFileNote()" />
+                                        <input type="button" value="编辑" id="btnPreviewEdit" class="btn btn-info" onclick="previewEditNote()" style="display:none" />
+                                    </div>
+                                    <div class="summernote" id="note1">
+                                    </div>
+                                    <input type="hidden" id="hid_note2" name="Hid_ZiXunContent" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="con_a_2" class="cc" style="display:none;">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>中文标题</label>
+                                        <input type="text" class="form-control" placeholder="中文标题" name="F_ChineseTitle" id="F_ChineseTitle" value="@Model.F_ChineseTitle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>英文标题</label>
+                                        <input type="text" class="form-control" placeholder="英文标题" name="F_EnglishTitle" id="F_EnglishTitle" value="@Model.F_EnglishTitle">
+                                    </div>
+                                    <div class="form-group" id="divF_Lable">
+                                        <label>标签</label>
+                                        <textarea class="form-control col-sm-3" name="F_Label" id="F_Label"></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul role="menu" aria-label="Pagination">
+                            <li id="liUpPage" aria-disabled="true">
+                                <a href="#previous" onclick="setTab(1)" role="menuitem">上一步</a>
+                            </li>
+                            <li id="liDownPage" aria-hidden="false" aria-disabled="true">
+                                <a href="#next" onclick="setTab(2)" role="menuitem">下一步</a>
+                            </li>
+
+                        </ul>
+                        <input type="hidden" id="hidChineseId" />
+                        <input type="hidden" id="F_HtmlContent" name="F_HtmlContent" />
+                        <input type="hidden" id="hidChineseUrl" name="F_ChineseUrl" />
+                        <input type="hidden" id="hidEnglishUrl" name="F_EnglishUrl" />
+                        <input type="hidden" id="hidHtmlContent" name="F_HtmlUrl" />
+                        <input type="hidden" id="hidTotalUrl" name="F_TotalUrl" />
+                        <input type="hidden" id="hidTempCode" name="hidTempCode" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="未通过" id="btnAuditNo" class="btn btn-info" onclick="Audit(3)" />
+                    <input type="button" value="通过" id="btnAuditYes" class="btn btn-info" onclick="Audit(2)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

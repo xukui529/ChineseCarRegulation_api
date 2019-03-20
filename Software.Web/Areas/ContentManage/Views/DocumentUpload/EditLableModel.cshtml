@@ -1,0 +1,78 @@
+﻿
+@{
+	ViewBag.Title = "新建链接";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function btnSave() {
+        var keyValue = '@ViewData["id"]';
+        var data = $("#createUser").serialize();
+        $.ajax({
+			url: "/ContentManage/DocumentUpload/EditLableModel?keyValue=" + keyValue,
+            type: 'post',
+            data: data,
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 500
+                        };
+                        toastr.success('操作成功！');
+                    }, 100);
+                    setTimeout(function () {
+						window.location.href = '/ContentManage/DocumentUpload/Index';
+                    }, 600);
+                }
+            }
+        });
+	}
+
+	function btnBack() {
+		window.location.href = '/ContentManage/DocumentUpload/Index';
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>工作台</a>
+			</li>
+			<li class="active">
+				<strong>发布与审核</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>编辑标签</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="panel-body">
+						<form class="form-horizontal" id="createUser">
+							@Html.AntiForgeryToken()
+							<div class="form-group">
+								<div class="col-lg-8">
+									<textarea name="F_Memo" id="F_Memo" class="form-control col-sm-3" placeholder="蓄电池;battery;电动车;electric car;"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button class="btn btn-success" type="button" onclick="btnSave()">确定</button>
+									<button class="btn btn-warning" type="button" onclick="btnBack()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewBag.Title = "新建文档";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    var thisTab = 1;//当前页tab
+    var strEditId = '@ViewData["id"]';
+    $(function () {
+        $("#liUpPage").hide();
+        $("#liDownPage").show();  
+        $("#PDFDownloadIframe").show(); 
+        if (strEditId != '' && strEditId != null) {
+            $("#hidTotalUrl").val('@Model.F_TotalUrl');
+            document.getElementById("F_Label").innerHTML = '@Model.F_Label';
+        } 
+        tabChang(1);
+	});
+     
+    function changeSrc(src) {
+        $("#PDFDownloadIframe").attr('src', src);
+        $('#PDFDownloadIframe').attr('src', $('#PDFDownloadIframe').attr('src'));
+        $("#PDFDownloadIframe").show();
+        $("#PDFDownloadA").attr('href', src);
+    }
+
+
+    function setTab(cursel) {
+        if (thisTab == 1 && cursel == 1) {
+            //第1页，点了第1页，不操作
+        } else if (thisTab == 2 && cursel == 1) {
+            tabChang(1);
+            //第2页，点了第1页 等于上一步 不操作
+        } else if (thisTab == 1 && cursel == 2) { 
+            tabChang(2);
+            //第1页，点了第2页 等于下一步 验证表单，并且上传
+        } else if (thisTab == 2 && cursel == 2) {
+            //第2页，点了第2页 不操作
+        }
+    } 
+    function tabChang(cursel) {
+        for (i = 1; i <= 2; i++) {
+            var menu = document.getElementById('a' + i);
+            var con = document.getElementById("con_a_" + i);
+            menu.className = i == cursel ? "curr" : "";
+            con.style.display = i == cursel ? "block" : "none";
+        }
+        thisTab = cursel;
+        if (cursel == 1) {
+            changeSrc($("#hidTotalUrl").val());
+            $("#liUpPage").hide();
+            $("#liDownPage").show(); 
+        }
+        else if (cursel == 2) {
+            $("#liUpPage").show();
+            $("#liDownPage").hide(); 
+        }
+    }  
+    function Audit(status) {
+
+        $.ajax({
+            url: '/ContentManage/Auditing/Audit?keyValue=' + strEditId + '&status=' + status,
+            datatype: 'json',
+            type: 'get',
+            async: false,
+            success: function (result) {
+                if (result != '' && result != null && result == 1) {
+                    alert("操作成功");
+                    window.location.href = "/ContentManage/Auditing/Index";
+                }
+            }
+        });
+    }
+</script>
+<style>
+    p:hover {
+        background: #e8e8e8;
+    }
+    .tab {
+        height: 23px;
+    }
+
+        .tab ul {
+            list-style: none;
+        }
+
+        .tab li {
+            border: 1px solid #ccc;
+            background: #eee;
+            cursor: pointer;
+            display: block;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            width: 200px;
+            font-size: 12px;
+            height: 21px;
+            line-height: 21px;
+            margin: 0 2px;
+            position: relative;
+            top: 1px;
+            z-index: 9;
+        }
+
+            .tab li:hover {
+                text-decoration: underline;
+            }
+
+            .tab li.curr {
+                background: #fff;
+                border-bottom-color: #fff;
+                cursor: default;
+                font-weight: bold;
+            }
+
+    .cc {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>内容管理</a>
+            </li>
+            <li class="active">
+                <strong>文档上传</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>查看文档</h5>
+                </div>
+                <div class="ibox-content">
+                    <form id="form" class="wizard-big">
+                        <div class="tab">
+                            <ul>
+                                <li id="a1" onclick="setTab(1)" class="curr">详情</li>
+                                <li id="a2" onclick="setTab(2)">元数据</li>
+                            </ul>
+                        </div>
+                        <div id="con_a_1" class="cc">
+
+                            <iframe id="PDFDownloadIframe" style="width:80%;height:80%;">
+                                <a id="PDFDownloadA">下载 PDF</a>
+                            </iframe>
+                        </div>
+                        <div id="con_a_2" class="cc" style="display:none;">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>中文标题</label>
+                                        <input type="text" class="form-control" placeholder="中文标题" name="F_ChineseTitle" id="F_ChineseTitle" value="@Model.F_ChineseTitle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>英文标题</label>
+                                        <input type="text" class="form-control" placeholder="英文标题" name="F_EnglishTitle" id="F_EnglishTitle" value="@Model.F_EnglishTitle">
+                                    </div>
+
+                                    <div class="form-group" id="divF_Lable">
+                                        <label>标签</label>
+                                        <textarea class="form-control col-sm-3" name="F_Label" id="F_Label"></textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul role="menu" aria-label="Pagination">
+                            <li id="liUpPage" aria-disabled="true">
+                                <a href="#previous" onclick="setTab(1)" role="menuitem">上一步</a>
+                            </li>
+                            <li id="liDownPage" aria-hidden="false" aria-disabled="true">
+                                <a href="#next" onclick="setTab(2)" role="menuitem">下一步</a>
+                            </li>
+                        </ul>
+                        <input type="hidden" id="hidTotalUrl" name="F_TotalUrl" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="未通过" id="btnAuditNo" class="btn btn-info" onclick="Audit(3)" />
+                    <input type="button" value="通过" id="btnAuditYes" class="btn btn-info" onclick="Audit(2)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

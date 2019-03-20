@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "升级会员";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+	$(function () {
+        $('#data_Release .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+			calendarWeeks: false,
+			autoclose: true,
+			todayHighlight: true,
+			todayBtn: false,
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			//endDate: new Date()
+		}).on('changeDate', function (ev) {
+			if (ev.date) {
+				$("#data_Implement .input-group.date").datepicker('setStartDate', new Date(ev.date.valueOf()))
+			} else {
+				$("#data_Implement .input-group.date").datepicker('setStartDate', null);
+			}
+		});
+
+        $('#data_Implement .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+			calendarWeeks: false,
+			todayHighlight: true,
+			autoclose: true,
+			todayBtn: false,
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			//endDate: new Date()
+		}).on('changeDate', function (ev) {
+			if (ev.date) {
+				$("#data_Release .input-group.date").datepicker('setEndDate', new Date(ev.date.valueOf()))
+			} else {
+				$("#data_Release .input-group.date").datepicker('setEndDate', new Date());
+			}
+		}); 
+    })
+    function btnSave() {
+        var keyValue = '@ViewData["id"]'; 
+        $.ajax({
+            url: "/SystemManage/MemberUpgradeApply/Update?keyValue=" + keyValue + '&startTime=' + $("#F_StartDate").val() + '&endTime=' + $("#F_EndDate").val(),
+            type: 'get', 
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 500
+                        };
+                        toastr.success('操作成功！');
+                    }, 100);
+                    setTimeout(function () {
+                        window.location.href = '/SystemManage/MemberUpgradeApply/Index';
+                    }, 600);
+                }
+            }
+        });
+    }
+	function btnBack() {
+        window.location.href = '/SystemManage/MemberUpgradeApply/Index';
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>系统管理</a>
+            </li>
+            <li class="active">
+                <strong>升级会员审核</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>升级会员审核</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel-body">
+                        <form class="form-horizontal" id="createUser">
+                            @Html.AntiForgeryToken()
+                              
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">开始日期</label>
+                                <div class="col-lg-2" id="data_Release">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" name="F_StartDate" id="F_StartDate" readonly="readonly">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <label class="col-lg-2 control-label">结束日期</label>
+                                <div class="col-lg-2" id="data_Implement">
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" name="F_EndDate" id="F_EndDate" readonly="readonly">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-2 col-lg-10">
+                                    <button class="btn btn-success" type="button" onclick="btnSave()">审核通过</button>
+                                    <button class="btn btn-warning" type="button" onclick="btnBack()">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

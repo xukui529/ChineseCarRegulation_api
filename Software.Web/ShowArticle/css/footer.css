@@ -1,0 +1,78 @@
+body {
+  font-family : Microsoft YaHei;
+  padding:0;
+  margin:0;
+  width:100%;
+  height:100%;
+}
+*{
+	margin:0;
+	padding:0;
+}
+a {
+  text-decoration:none;
+  color:#000;
+}
+input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*页脚*/
+#footer{
+	width:100%;
+	height:320px;
+	border-top:2px solid #0C7DCF;
+}
+#service{
+	background: #ddd;
+	width:100%;
+	height:240px;
+	padding:50px 240px;
+	box-sizing:border-box;
+}
+#service_list{
+	float: left;
+}
+#service_list>li{
+	float: left;
+	list-style: none;
+	margin-right:155px;
+}
+#service_list li{
+	list-style: none;
+	line-height: 25px;
+}
+.service_list_colomu h3{
+	margin-bottom: 30px;
+	color: #4A4A4A;
+}
+.service_list_colomu a{
+	font-size: 13px;
+	color: #595959;
+}
+.service_list_colomu a:hover{
+	color: #0C7DCF;
+}
+#contact{
+	float: right;
+	color: #0C7DCF;
+}
+#contact h2{
+	font-size: 20px;
+	margin-bottom: 45px;
+}
+#copyright{
+	width:100%;
+	height:75px;
+	background: #04366F;
+}
+#copyright p{
+	height: 75px;
+	line-height: 75px;
+	color: #9B9B9B;
+	width:440px;
+	margin: 0 auto;
+	font-size: 13px;
+}

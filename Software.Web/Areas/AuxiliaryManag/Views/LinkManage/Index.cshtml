@@ -1,0 +1,185 @@
+﻿@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+	$(document).ready(function () {
+		//1.初始化Table
+		var oTable = new TableInit();
+		oTable.Init();
+
+	});
+	var TableInit = function () {
+		var oTableInit = new Object();
+		//初始化Table
+		oTableInit.Init = function () {
+			$('#tb_departments').bootstrapTable({
+				url: '/AuxiliaryManag/LinkManage/GetGridJson',         //请求后台的URL（*）
+				method: 'get',                      //请求方式（*）
+				toolbar: '#toolbar',                //工具按钮用哪个容器
+				checkboxHeader: false,
+				striped: true,                      //是否显示行间隔色
+				cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true,                   //是否显示分页（*）
+				sortable: false,                     //是否启用排序
+				sortOrder: "asc",                   //排序方式
+				queryParams: oTableInit.queryParams,//传递参数（*）
+				sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+				pageNumber: 1,                       //初始化加载第一页，默认第一页
+				pageSize: 10,                       //每页的记录行数（*）
+				pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+				search: false,                       //是否显示表格搜索
+				strictSearch: false,
+				showColumns: false,                  //是否显示所有的列
+				showRefresh: false,                  //是否显示刷新按钮
+				minimumCountColumns: 2,             //最少允许的列数
+				clickToSelect: false,                //是否启用点击选中行
+				height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+				uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+				showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+				cardView: false,                    //是否显示详细视图
+				detailView: false,                   //是否显示父子表
+				columns: [{
+					checkbox: false,
+					visible: false
+				}, {
+					field: 'F_ChineseName',
+					title: '中文名称'
+				}, {
+					field: 'F_EnglishName',
+					title: '英文名称'
+				}, {
+					field: 'F_Type',
+					title: '分类',
+					formatter: function (value) {
+						return changeTypeFormat(value)
+					}
+				}, {
+					field: 'F_CreatorTime',
+					title: '创建日期',
+					formatter: function (value) {
+						return changeDateFormat(value)
+					}
+				}, {
+					field: 'Button',
+					title: '操作',
+					events: operateEvents,
+					formatter: AddFunctionAlty
+				},]
+			});
+		};
+
+		//得到查询的参数
+		oTableInit.queryParams = function (params) {
+			var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+				keyword: '',
+				sidx: 'F_Id',   //页面大小
+				sord: 'asc',  //页码
+				limit: params.limit,
+				offset: params.offset
+			};
+			return temp;
+		};
+		return oTableInit;
+	};
+
+	//修改——转换日期格式(时间戳转换为datetime格式)
+	function changeDateFormat(cellval) {
+		if (cellval != null) {
+			var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+			var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+			var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+			return date.getFullYear() + "-" + month + "-" + currentDate;
+		}
+	}
+
+	function changeTypeFormat(cellval) {
+		return top.clients.dataItems["LinkType"][cellval] == undefined ? "" : top.clients.dataItems["LinkType"][cellval]
+	}
+
+	function AddFunctionAlty(value, row, index) {
+		return [
+			'<button class="btn btn-primary btn-xs" id="TableEdite">编辑</button> &nbsp;&nbsp;',
+			'<button class="btn btn-danger btn-xs" id="TableSet">删除</button>'
+		].join("")
+	}
+	window.operateEvents = {
+		"click #TableEdite": function (e, value, row, index) {
+			window.location.href = "/AuxiliaryManag/LinkManage/CreateModel?keyValue=" + row.F_Id + "";
+		},
+		"click #TableSet": function (e, value, row, index) {
+			swal({
+				title: "删除",
+				text: "您确定要删除该数据吗？",
+				type: "warning",
+				showCancelButton: true,
+				cancelButtonText: "取消",
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定",
+				closeOnConfirm: false
+			}, function () {
+				$.ajax({
+					url: "/AuxiliaryManag/LinkManage/DeleteForm",
+					type: 'post',
+					data: { keyValue: row.F_Id },
+					success: function (result) {
+						if (result == '删除成功') {
+							setTimeout(function () {
+								toastr.options = {
+									closeButton: true,
+									progressBar: true,
+									showMethod: 'slideDown',
+									timeOut: 500
+								};
+								toastr.success('删除成功！');
+							}, 100);
+							setTimeout(function () {
+								window.location.reload();
+							}, 600);
+						}
+					}
+				});
+			});
+		}
+	}
+
+	function btnAdd() {
+		window.location.href = "/AuxiliaryManag/LinkManage/CreateModel";
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>辅助管理</a>
+			</li>
+			<li class="active">
+				<strong>链接管理</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>链接列表</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="名称" name="name" />
+						</div>
+						<button type="button" class="btn btn-success">查询</button>
+						<button type="button" class="btn btn-info" id="btn_add" onclick="btnAdd()">新增</button>
+					</div>
+					<div class="table-responsive">
+						<table id="tb_departments"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>后台管理系统</title>
+
+    <link href="~/Content/MoBan/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/MoBan/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <!-- Toastr style -->
+    <link href="~/Content/MoBan/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+    <!-- Gritter -->
+    @*<link href="~/Content/MoBan/js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />*@
+
+    <link href="~/Content/MoBan/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/MoBan/css/style.css" rel="stylesheet" />
+
+    <link href="~/Content/js/wdtree/tree.css" rel="stylesheet" />
+
+    <link href="~/Content/css/toastr.min.css" rel="stylesheet" />
+
+    <script src="~/Content/js/jquery/jquery-2.1.4.min.js"></script>
+    <script src="~/Content/js/cookie/jquery.cookie.js"></script>
+    <script src="~/Content/js/framework-clientdata.js"></script>
+    <script src="~/Content/MoBan/js/plugins/toastr/toastr.min.js"></script>
+    <link href="~/Content/MoBan/css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+    <link href="~/Content/MoBan/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="~/Content/MoBan/css/plugins/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/Content/MoBan/css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/MoBan/css/plugins/bootstrapValidator.css" rel="stylesheet" />
+
+    <script src="~/Content/js/jquery.blockUI.js"></script>
+</head>
+
+<body>
+	<div id="wrapper">
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav metismenu" id="sidebar-nav">
+					<li class="nav-header" style="position:relative">
+						<div style="position:absolute;left:10px;top:10px;">
+							<img src="~/Content/img/chat-avatar.jpg" style="width:45px;height:45px;" />
+						</div>
+						<strong class="block m-t-xs" style="font-size:18px;color:white;float:right;margin-right:20px">后台管理系统</strong>
+					</li>
+				</ul>
+
+			</div>
+		</nav>
+
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<ul class="nav navbar-top-links navbar-right">
+						<li>
+                            <span class="m-r-sm text-muted welcome-message">
+                                @{
+        if (NFine.Code.OperatorProvider.Provider.GetCurrent() != null)
+        {
+                            @NFine.Code.OperatorProvider.Provider.GetCurrent().UserCode
+} 
+                                    }
+
+                            </span>
+						</li>
+						<li>
+							<a href="~/Login/OutLogin">
+								<span style="color:cornflowerblue">[退出]</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="row  border-bottom dashboard-header">
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+
+	<!-- Mainly scripts -->
+	<script src="~/Content/MoBan/js/bootstrap.min.js"></script>
+
+	<script src="~/Scripts/bootstrap-table.js"></script>
+	<link href="~/Scripts/bootstrap-table.css" rel="stylesheet" />
+	<script src="~/Scripts/bootstrap-table-zh-CN.js"></script>
+
+	<script src="~/Content/MoBan/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="~/Content/MoBan/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+	<!-- Custom and plugin javascript -->
+	<script src="~/Content/MoBan/js/inspinia.js"></script>
+	<script src="~/Content/MoBan/js/plugins/pace/pace.min.js"></script>
+
+	<!-- jQuery UI -->
+	<script src="~/Content/MoBan/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+	<script src="~/Content/MoBan/js/plugins/summernote/summernote.js"></script>
+	<script src="~/Content/MoBan/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<!-- Toastr -->
+	@*<script src="~/Content/MoBan/js/plugins/toastr/toastr.min.js"></script>*@
+
+	<script src="~/Content/js/index.js"></script>
+	<script src="~/Content/js/wdtree/tree.js"></script>
+	<script src="~/Content/MoBan/js/plugins/staps/jquery.steps.js"></script>
+	<script src="~/Content/MoBan/js/plugins/sweetalert/sweetalert.min.js"></script>
+	<script src="~/Content/MoBan/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script src="~/Content/MoBan/js/plugins/datapicker/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script src="~/Content/MoBan/js/plugins/validate/bootstrapValidator.min.js"></script>
+	<script src="~/Content/MoBan/js/plugins/validate/zh_CN.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".nav > li > a").each(function () {
+				$this = $(this);
+				var herfUrl = $this[0].href;
+				var hrefIndex = herfUrl.lastIndexOf('/');
+				var hrefSub = herfUrl.substr(0, hrefIndex);
+
+				var locationUrl = String(window.location);
+				var locationIndex = locationUrl.lastIndexOf('/');
+				var locationSub = locationUrl.substr(0, locationIndex);
+
+				if (hrefSub == locationSub) {
+					$(this).parent().addClass("active");
+					$(this).parents("ul").addClass(" in")
+					$(this).parents("li").addClass("active active")
+					var $item = $(this).parents("li");
+					$item.children('.nav nav-second-level collapse').slideDown('fast', function () {
+						var _height1 = $(window).height() - 92 - $item.position().top;
+						var _height2 = $item.find('ul.nav nav-second-level collapse').height() + 10;
+						var _height3 = _height2 > _height1 ? _height1 : _height2;
+						$item.find('ul.nav nav-second-level collapse').css({
+							overflow: "auto",
+							height: _height3
+						})
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>

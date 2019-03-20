@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+
+    /**************************************时间格式化处理************************************/
+    function dateFtt(fmt, date) {
+        var o = {
+            "M+": date.getMonth() + 1,                 //月份
+            "d+": date.getDate(),                    //日
+            "h+": date.getHours(),                   //小时
+            "m+": date.getMinutes(),                 //分
+            "s+": date.getSeconds(),                 //秒
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+            "S": date.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+    function crtTimeFtt(value) {
+        var crtTime = new Date(value);
+        return top.dateFtt("yyyy-MM-dd", crtTime);//直接调用公共JS里面的时间类处理的办法
+    }
+
+    function stateFtt(value) {
+        if (value) {
+            return '有效';
+        } else {
+            return '无效';
+        }
+    }
+
+    function codeFtt(cellvalue) {
+        return top.clients.dataItems["RoleType"][cellvalue] == undefined ? "" : top.clients.dataItems["RoleType"][cellvalue]
+    }
+
+    function gridList() {
+        var title = $("#name").val();
+        $.ajax({
+            url: '/SystemManage/Role/GetGridJson',
+            data: { keyword: title },
+            datatype: 'json',
+            type: 'get',
+            success: function (result) {
+                var htmlData = '';
+                var htmlId = '';
+                if (result != '' && result != null) {
+                    var obj = eval('(' + result + ')');
+                    if (obj.length <= 0) {
+                        $("#dataTbodyId").html('');
+                    } else {
+                        $("#dataTbodyId").html('');
+                        $.each(obj, function () {
+                            htmlId = '"' + this.F_Id + '"';
+                            htmlData += '<tr>';
+                            htmlData += '<td>' + this.F_SortCode + '</td>';
+                            htmlData += '<td>' + this.F_FullName + '</td>';
+                            htmlData += '<td>' + this.F_EnCode + '</td>';
+                            htmlData += '<td>' + codeFtt(this.F_Type) + '</td>';                          
+                            htmlData += '<td>' + crtTimeFtt(this.F_CreatorTime) + '</td>';
+                            htmlData += '<td>' + stateFtt(this.F_EnabledMark) + '</td>';
+                            htmlData += "<td><button class='btn btn-primary btn-xs' onclick='btnUpdate(" + htmlId + ")'>编辑</button>&nbsp;&nbsp;<button class='btn btn-danger btn-xs' name='btnDelete' onclick='btnDelete(" + htmlId + ")'>";
+
+                            htmlData += "删除</button></td>";
+                            htmlData += '</tr>';
+                        });
+                        $("#dataTbodyId").append(htmlData);
+                    }
+                } else {
+                    $("#dataTbodyId").html('');
+                }
+            }
+        });
+    }
+
+    function btnAddMenu() {
+        window.location.href = "/SystemManage/Role/CreateModel";
+    }
+
+    // 编辑
+    function btnUpdate(id) {
+        window.location.href = "/SystemManage/Role/CreateModel?keyValue=" + id + "";
+    }
+
+    // 删除
+    function btnDelete(id) {
+        swal({
+            title: "删除",
+            text: "您确定要删除该数据吗？",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "取消",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                url: "/SystemManage/Role/DeleteForm",
+                type: 'post',
+                data: { keyValue: id },
+                success: function (result) {
+                    if (result == '删除成功') {
+                        setTimeout(function () {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 500
+                            };
+                            toastr.success('删除成功！');
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 600);
+                    }
+                }
+            });
+        });
+    }
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding: 10px 0px 0px 10px;">
+            <li>
+                <a>工作台</a>
+            </li>
+            <li class="active">
+                <strong>角色管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>角色列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="角色名称/编号" name="name" id="name" />
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="gridList()">查询</button>
+                        <button type="button" class="btn btn-info" id="btn_add" onclick="btnAddMenu()">新增</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>排序</th>
+                                    <th>角色名称</th>
+                                    <th>角色编号</th>
+                                    <th>角色类型</th>
+                                    <th>创建时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTbodyId"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

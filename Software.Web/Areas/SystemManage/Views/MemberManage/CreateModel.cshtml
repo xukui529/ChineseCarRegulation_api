@@ -1,0 +1,188 @@
+﻿
+@{
+	ViewBag.Title = "会员";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        hyTypeChange();
+        $('#data_Release .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+			calendarWeeks: false,
+			autoclose: true,
+			todayHighlight: true,
+			todayBtn: false,
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			//endDate: new Date()
+		}).on('changeDate', function (ev) {
+			if (ev.date) {
+				$("#data_Implement .input-group.date").datepicker('setStartDate', new Date(ev.date.valueOf()))
+			} else {
+				$("#data_Implement .input-group.date").datepicker('setStartDate', null);
+			}
+		});
+
+        $('#data_Implement .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+			calendarWeeks: false,
+			todayHighlight: true,
+			autoclose: true,
+			todayBtn: false,
+			language: "zh-CN",
+			format: "yyyy-mm-dd",
+			//endDate: new Date()
+		}).on('changeDate', function (ev) {
+			if (ev.date) {
+				$("#data_Release .input-group.date").datepicker('setEndDate', new Date(ev.date.valueOf()))
+			} else {
+				$("#data_Release .input-group.date").datepicker('setEndDate', new Date());
+			}
+		});
+        var id = '@ViewData["id"]';
+        if (id != '' && id != null) {
+			$("#F_HYType option[value='@Model.F_HYType']").attr('selected', true);
+
+			var startDate = new Date('@Model.F_StartDate').format('yyyy-MM-dd');
+			$('#F_StartDate').val(startDate);
+			var endDate = new Date('@Model.F_EndDate').format('yyyy-MM-dd');
+			$('#F_EndDate').val(endDate);
+        }
+    })
+    function btnSave() {
+        var keyValue = '@ViewData["id"]';
+        var data = $("#createUser").serialize();
+        $.ajax({
+            url: "/SystemManage/MemberManage/CreateModel?keyValue=" + keyValue,
+            type: 'post',
+            data: data,
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 500
+                        };
+                        toastr.success('操作成功！');
+                    }, 100);
+                    setTimeout(function () {
+                        window.location.href = '/SystemManage/MemberManage/Index';
+                    }, 600);
+                }
+            }
+        });
+    }
+	function btnBack() {
+		window.location.href = '/SystemManage/MemberManage/Index';
+    }
+    function hyTypeChange() {
+        var F_HYType = $("#F_HYType").val();
+        if (F_HYType == 0) {
+            $("#divAccount").hide();
+            $("#divTime").hide();
+            $("#F_Account").val('');
+            $("#F_StartDate").val('');
+            $("#F_EndDate").val('');
+            
+        }
+        else { 
+            $("#divAccount").show();
+            $("#divTime").show();
+        }
+    }
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>系统管理</a>
+			</li>
+			<li class="active">
+				<strong>会员管理</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>新增会员</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="panel-body">
+						<form class="form-horizontal" id="createUser">
+							@Html.AntiForgeryToken()
+							<div class="form-group">
+								<label class="col-lg-2 control-label">会员类型</label>
+								<div class="col-lg-6">
+                                    <select class="form-control" name="F_HYType" id="F_HYType" onchange="hyTypeChange()">
+                                        <option value="0">普通会员</option>
+                                        <option value="1">季付</option>
+                                        <option value="2">年付</option>
+                                    </select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">会员邮箱</label>
+								<div class="col-lg-6">
+									<input type="email" class="form-control" placeholder="会员邮箱" name="F_Email" id="F_Email" value="@Model.F_Email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">密码</label>
+								<div class="col-lg-6">
+									<input type="password" class="form-control" placeholder="密码" name="F_Password" id="F_Password" value="@Model.F_Password">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">电话</label>
+								<div class="col-lg-6">
+									<input type="tel" class="form-control" placeholder="电话" name="F_Phone" id="F_Phone" value="@Model.F_Phone">
+								</div>
+							</div>
+							<div class="form-group" id="divAccount">
+								<label class="col-lg-2 control-label">费用</label>
+								<div class="col-lg-6">
+									<input type="number" class="form-control" placeholder="费用" name="F_Account" id="F_Account" value="@Model.F_Account">
+								</div>
+							</div>
+							<div class="form-group" id="divTime">
+								<label class="col-lg-2 control-label">开始日期</label>
+								<div class="col-lg-2" id="data_Release">
+									<div class="input-group date">
+										<input type="text" class="form-control" name="F_StartDate" id="F_StartDate" readonly="readonly">
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>
+								<label class="col-lg-2 control-label">结束日期</label>
+								<div class="col-lg-2" id="data_Implement">
+									<div class="input-group date">
+										<input type="text" class="form-control" name="F_EndDate" id="F_EndDate" readonly="readonly">
+										<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button class="btn btn-success" type="button" onclick="btnSave()">保存</button>
+									<button class="btn btn-warning" type="button" onclick="btnBack()">返回</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

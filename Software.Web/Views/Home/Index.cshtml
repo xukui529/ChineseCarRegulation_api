@@ -1,0 +1,334 @@
+﻿@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <h2 class="no-margins">早安，@NFine.Code.OperatorProvider.Provider.GetCurrent().UserCode，祝你开心每一天</h2>
+                <br />
+              
+                <span>@NFine.Code.OperatorProvider.Provider.GetCurrent().UserName  |  中国汽车法规标准库网</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-1">访问量</a></li>
+                    @*<li class=""><a data-toggle="tab" href="#tab-2">下载量</a></li>*@
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <fieldset class="form-horizontal">
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <div class="pull-right">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-xs btn-white active">
+                                                        今日
+                                                    </button>
+                                                    <button type="button" class="btn btn-xs btn-white">
+                                                        本周
+                                                    </button>
+                                                    <button type="button" class="btn btn-xs btn-white">
+                                                        本月
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-9 leftinfo">
+                                                    <div id="main" style="width: 100%; height: 260px;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-3">
+                                                    <h3>
+                                                        文档访问排行榜
+                                                    </h3>
+                                                    <ul class="list-group clear-list m-t">
+                                                        <li class="list-group-item fist-item">
+                                                            <span class="pull-right">523,210 </span><span class="label label-success">1</span> 汽车和挂车后下部防护要求
+                                                        </li>
+                                                        <li class="list-group-item" style="white-space: nowrap; overflow: hidden;">
+                                                            <span class="pull-right">433,278</span><span class="label label-success">2</span> <span style="white-space: nowrap; overflow: hidden; display: inline-block">道路运输爆炸品和剧毒化…</span>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">325,331 </span><span class="label label-success">
+                                                                3
+                                                            </span> 门锁及车门保持件的性能…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">95,654 </span><span class="label label-default">
+                                                                4
+                                                            </span> 汽车门锁及车门保持件的…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                5
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                6
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                7
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>
+                                                发布统计
+                                            </h5>
+                                            <div class="pull-right">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-xs btn-white active">
+                                                        今日
+                                                    </button>
+                                                    <button type="button" class="btn btn-xs btn-white">
+                                                        本周
+                                                    </button>
+                                                    <button type="button" class="btn btn-xs btn-white">
+                                                        本月
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-8 leftinfo">
+                                                    <div id="main1" style="width: 100%; height: 260px;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <h3>
+                                                        线上热门搜索
+                                                    </h3>
+                                                    <ul class="list-group clear-list m-t">
+                                                        <li class="list-group-item fist-item">
+                                                            <span class="pull-right">523,210 </span><span class="label label-success">1</span> 汽车和挂车后下部防护要求
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">433,278 </span><span class="label label-success">
+                                                                2
+                                                            </span> 道路运输爆炸品和剧毒化…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">325,331 </span><span class="label label-success">
+                                                                3
+                                                            </span> 门锁及车门保持件的性能…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">95,654 </span><span class="label label-default">
+                                                                4
+                                                            </span> 汽车门锁及车门保持件的…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                5
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                6
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <span class="pull-right">6,400 </span><span class="label label-default">
+                                                                7
+                                                            </span> 防止汽车转向机构对驾驶员…
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    @*<div id="tab-2" class="tab-pane">
+                            <div class="panel-body">
+                                <fieldset class="form-horizontal">
+                                    2
+                                </fieldset>
+                            </div>
+                        </div>
+                    *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/MoBan/js/plugins/chartJs/echarts.min.js"></script>
+<script type="text/javascript">
+    //获取图表容器（容器添加宽度样式为100%，自适应bs的9/12，为该容器的父容器添加class用于获取宽度）
+    var main = document.getElementById('main');
+    var main1 = document.getElementById('main1');
+
+    // 指定图表的配置项和数据
+    var option = {
+        color: ['#3398DB'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Fri', 'Sat', 'Sun', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Fri', 'Sat', 'Sun'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '直接访问',
+                type: 'bar',
+                barWidth: '60%',
+                data: [10, 52, 200, 334, 390, 330, 220, 390, 330, 220, 52, 200, 334, 390, 330, 220, 390, 330, 220]
+            }
+        ]
+    };
+
+    var option1 = {
+        color: ['#3398DB', '#33CC99'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Fri', 'Sat', 'Sun', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Fri', 'Sat', 'Sun'],
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: {
+            type: 'value'
+        },
+        xAxis: {
+            type: 'category',
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        },
+        series: [
+            {
+                name: '直接访问',
+                type: 'bar',
+                stack: '总量',
+                barWidth: 30,
+                data: [10, 52]
+            },
+            {
+                name: '邮件营销',
+                type: 'bar',
+                stack: '总量',
+                data: [20, 22]
+            }
+        ]
+    };
+
+    //图表
+    var myChart, myChart1
+    function loadchart() {
+        //加载自动设置宽度
+        main.style.width = $(".leftinfo").width() + 'px';
+        main1.style.width = $(".leftinfo").width() + 'px';
+        // 基于准备好的dom，初始化echarts实例
+        myChart = echarts.init(main);
+        myChart1 = echarts.init(main1);
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        myChart1.setOption(option1);
+    }
+
+    $(function () {
+        //初始化图表
+        loadchart();
+        //绑定浏览器大小改变
+        $(window).resize(function () {
+            $("#main").css({ width: $(".leftinfo").width() + 'px' });
+            $("#main1").css({ width: $(".leftinfo").width() + 'px' });
+            myChart.resize(); myChart1.resize();
+        });
+    });
+
+    //int searchType, DateTime beginTime, DateTime endTime
+    $.ajax({
+        url: "/Home/GetDocumentVisitInfoStat",
+        type: 'POST',
+        data: "{'searchType' : '1','beginTime' : '2018-10-11','endTime' : '2018-11-12'}",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+
+    $.ajax({
+        url: "/Home/GetReleaseInfoStat",
+        type: 'POST',
+        data: "{'searchType' : '1','beginTime' : '2018-10-11','endTime' : '2018-11-12'}",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+
+    $.ajax({
+        url: "/Home/DocumentSearchKeysStatTop",
+        type: 'POST',
+        data: "",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+    $.ajax({
+        url: "/Home/DocumentVisitInfoStatTop",
+        type: 'POST',
+        data: "",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+</script>

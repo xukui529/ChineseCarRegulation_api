@@ -1,0 +1,297 @@
+﻿
+@{
+    ViewBag.Title = "新建文档";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script> 
+    var thisTab = 1;//当前页tab 
+    var editId = '@ViewData["id"]'; 
+    $(function () {
+        $("#liUpPage").hide();
+        $("#liDownPage").show();
+        $("#liSubmitPage").hide();
+        
+        $('#btnPreviewFile').css("display", "none");
+        $('#btnPreviewEdit').css("display", "none");
+        $('#note1').summernote('destroy');
+        $("#PDFDownloadIframe").hide();  
+        $('#div_uploadfileId').css("display", "block");//上传控件要显示，可上传 覆盖 
+ 
+        if (editId != '' && editId != null) {
+            $("#hidTotalUrl").val('@Model.F_TotalUrl'); 
+            document.getElementById("F_Label").innerHTML = '@Model.F_Label'; 
+        } 
+        var validData = {
+            F_ChineseTitle: {
+                validators: {
+                    notEmpty: {//检测非空,radio也可用
+                        message: '请输入中文标题'
+                    },
+                }
+            },
+            F_EnglishTitle: {
+                validators: {
+                    notEmpty: {//检测非空,radio也可用
+                        message: '请输入英文标题'
+                    },
+                }
+            }
+        };
+
+        $("#form").bootstrapValidator({
+            live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+            excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
+            submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+            message: '通用的验证失败消息',//好像从来没出现过
+            feedbackIcons: {//根据验证结果显示的各种图标
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: validData
+        }); 
+	});
+
+	function btnSave() { 
+		var data = $("#form").serialize();
+		$.ajax({
+            url: "/ContentManage/DocumentUpload/SaveZiXunModel?keyValue=" + editId,
+			type: 'post',
+			data: data,
+			success: function (result) {
+				if (result == '操作成功') {
+					setTimeout(function () {
+						toastr.options = {
+							closeButton: true,
+							progressBar: true,
+							showMethod: 'slideDown',
+							timeOut: 500
+						};
+						toastr.success('操作成功！');
+					}, 100);
+					setTimeout(function () {
+						window.location.href = "/ContentManage/DocumentUpload/Index";
+					}, 600);
+				}
+			}
+		});
+	} 
+    function changeSrc(src) {  
+        $("#PDFDownloadIframe").attr('src', src);
+        $('#PDFDownloadIframe').attr('src', $('#PDFDownloadIframe').attr('src'));
+        $("#PDFDownloadIframe").show();
+        $("#PDFDownloadA").attr('href', src); 
+    }
+
+
+    function setTab(cursel) { 
+        if (thisTab == 1 && cursel == 1) {
+            //第1页，点了第1页，不操作
+        } else if (thisTab == 2 && cursel == 1) {
+            tabChang(1);
+            //第2页，点了第1页 等于上一步 不操作
+        } else if (thisTab == 1 && cursel == 2) {
+            if (checkFrom()) {
+                saveFiles();//上传成功后 调用
+            }
+            //第1页，点了第2页 等于下一步 验证表单，并且上传
+        } else if (thisTab == 2 && cursel == 2) {
+            //第2页，点了第2页 不操作
+        }
+    }
+    function checkFrom() {
+        $("#form").bootstrapValidator('validate');//提交验证
+        return $("#form").data('bootstrapValidator').isValid();
+    }
+    function tabChang(cursel) {
+        for (i = 1; i <= 2; i++) {
+            var menu = document.getElementById('a' + i);
+            var con = document.getElementById("con_a_" + i);
+            menu.className = i == cursel ? "curr" : "";
+            con.style.display = i == cursel ? "block" : "none";
+        }
+        thisTab = cursel;
+        if (cursel == 1) {
+            $("#liUpPage").hide();
+            $("#liDownPage").show();
+            $("#liSubmitPage").hide();
+        }
+        else if (cursel == 2) {
+            changeSrc($("#hidTotalUrl").val()) ;
+            $("#liUpPage").show();
+            $("#liDownPage").hide();
+            $("#liSubmitPage").show();
+        }
+    }
+    function saveFiles() {
+        var fd1 = new FormData(); 
+        if (document.getElementById('uploadfile').value != '') { 
+            fd1.append("uploadfile", document.getElementById('uploadfile').files[0]);
+            $.blockUI({
+                message: '<h2 style="color:black;font-size: 14px;"><br>文件上传中...</h2><br>'
+            });
+            $.ajax({
+                url: "/ContentManage/DocumentUpload/SavePDFFile?keyWord=" + editId,
+                type: "POST",
+                data: fd1,
+                async: true,
+                contentType: false,
+                processData: false,
+                success: function (obj) {
+                    
+                    if (obj != '') {
+                        if (obj.TotalUrl != '') {
+                            $("#hidTotalUrl").val(obj.TotalUrl);
+                            tabChang(2);
+                        } else {
+                            alert("文件上传错误，请重新上传！");
+                        } 
+                        $.unblockUI();
+                    }
+                },
+                error: function () {
+                    alert("文件上传错误，请重新上传！");
+                    $.unblockUI();
+                }
+            });
+        }
+        else if ($("#hidTotalUrl").val() != ""  ) {
+            tabChang(2);
+        } else {
+            alert("必须上传文件！"); 
+        }
+    }
+
+</script>
+<style>
+    p:hover {
+        background: #e8e8e8;
+    }
+    .tab {
+        height: 23px;
+    }
+
+        .tab ul {
+            list-style: none;
+        }
+
+        .tab li {
+            border: 1px solid #ccc;
+            background: #eee;
+            cursor: pointer;
+            display: block;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            width: 200px;
+            font-size: 12px;
+            height: 21px;
+            line-height: 21px;
+            margin: 0 2px;
+            position: relative;
+            top: 1px;
+            z-index: 9;
+        }
+
+            .tab li:hover {
+                text-decoration: underline;
+            }
+
+            .tab li.curr {
+                background: #fff;
+                border-bottom-color: #fff;
+                cursor: default;
+                font-weight: bold;
+            }
+
+    .cc {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>内容管理</a>
+            </li>
+            <li class="active">
+                <strong>文档上传</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@((@ViewData["id"] + "") == "" ? "新建" : "编辑")文档</h5>
+                </div>
+                <div class="ibox-content">
+                    <form id="form" class="wizard-big">
+                        <div class="tab">
+                            <ul>
+                                <li id="a1" onclick="setTab(1)" class="curr">新建信息</li>
+                                <li id="a2" onclick="setTab(2)">调整内容</li>
+                            </ul>
+                        </div>
+                        <div id="con_a_1" class="cc">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-group">
+                                        <label>中文标题</label>
+                                        <input type="text" class="form-control" placeholder="中文标题" name="F_ChineseTitle" id="F_ChineseTitle" value="@Model.F_ChineseTitle">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>英文标题</label>
+                                        <input type="text" class="form-control" placeholder="英文标题" name="F_EnglishTitle" id="F_EnglishTitle" value="@Model.F_EnglishTitle">
+                                    </div>
+
+                                    <div class="form-group" id="divF_Lable">
+                                        <label>标签</label>
+                                        <textarea class="form-control col-sm-3" name="F_Label" id="F_Label"></textarea>
+                                    </div>
+                                    <div class="form-group" id="div_uploadfileId" style="margin-top: 60px;">
+                                        <label>上传文件</label>
+                                        <input type="file" name="uploadfile" id="uploadfile" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="con_a_2" class="cc" style="display:none;">
+                            <iframe id="PDFDownloadIframe" style="width:80%;height:600px;">
+                                <a id="PDFDownloadA">下载 PDF</a>
+                            </iframe>
+                        </div>
+
+                        <ul role="menu" aria-label="Pagination">
+                            <li id="liUpPage" aria-disabled="true">
+                                <a href="#previous" onclick="setTab(1)" role="menuitem">上一步</a>
+                            </li>
+                            <li id="liDownPage" aria-hidden="false" aria-disabled="true">
+                                <a href="#next" onclick="setTab(2)" role="menuitem">下一步</a>
+                            </li>
+                            <li id="liSubmitPage" aria-hidden="true" style="display: none;">
+                                <a href="#finish" onclick="btnSave()" role="menuitem">提交</a>
+                            </li>
+                        </ul>
+                        <input type="hidden" id="hidTotalUrl" name="F_TotalUrl" />
+
+                        <input type="hidden" id="hidChineseId" />
+                        <input type="hidden" id="F_HtmlContent" name="F_HtmlContent" />
+                        <input type="hidden" id="hidChineseUrl" name="F_ChineseUrl" />
+                        <input type="hidden" id="hidEnglishUrl" name="F_EnglishUrl" />
+                        <input type="hidden" id="hidHtmlContent" name="F_HtmlUrl" />
+                        <input type="hidden" id="hidTempCode" name="hidTempCode" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

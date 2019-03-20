@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script> 
+    var queryStatus = 1;
+    $(document).ready(function () {
+        //1.初始化Table
+        var oTable = new TableInit(1);
+        oTable.Init();
+    });
+
+    /**************************************时间格式化处理************************************/
+    // 会员类型
+    function changeHYTypeFormat(val) {
+        if (parseInt(val) == 1) {
+            return '季付';
+        } else {
+            return '年付';
+        }
+    }
+    //修改——转换日期格式(时间戳转换为datetime格式)
+    function changeDateFormat(cellval) {
+        if (cellval != null) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear() + "-" + month + "-" + currentDate;
+        }
+    }
+  
+
+    var TableInit = function (status) {
+        var oTableInit = new Object();
+        //初始化Table
+        oTableInit.Init = function () {
+            $('#tb_departments').bootstrapTable({
+                url: '/SystemManage/MemberUpgradeApply/GetGridJson',         //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                checkboxHeader: false,
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索
+                strictSearch: false,
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: false,                //是否启用点击选中行
+                height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "F_Id",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+                columns: [{
+                    checkbox: false,
+                    visible: false
+                }, {
+                    field: 'F_HYType',
+                    title: '会员类别',
+                    formatter: function (value) {
+                        return changeHYTypeFormat(value)
+                    }
+                    }, {
+                        field: 'F_Email',
+                        title: '邮箱'
+                    }, {
+                    field: 'F_Phone',
+                    title: '电话'
+                }, {
+                    field: 'F_Account',
+                    title: '费用(人民币)'
+                }, {
+                    field: 'F_CreatorTime',
+                    title: '申请日期',
+                    formatter: function (value) {
+                        return changeDateFormat(value)
+                    }
+                }, {
+                    field: 'Button',
+                    title: '操作',
+                    events: operateEvents,
+                    formatter: AddFunctionAlty
+                },]
+            });
+        };
+        
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                keyword: '',
+                status: status,
+                limit: params.limit,
+                offset: params.offset
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    function AddFunctionAlty(value, row, index) { 
+        if (queryStatus == 1) {
+			return [
+				'<button class="btn btn-danger btn-xs" id="TableSet">编辑</button>'
+			].join("")
+		}  
+    }
+    window.operateEvents = {
+       
+        "click #TableSet": function (e, value, row, index) {
+            window.location.href = '/SystemManage/MemberUpgradeApply/CreateModel?keyValue=' + row.F_Id;
+            //swal({
+            //    title: "通过",
+            //    text: "您确定要通过该会员吗？",
+            //    type: "warning",
+            //    showCancelButton: true,
+            //    cancelButtonText: "取消",
+            //    confirmButtonColor: "#DD6B55",
+            //    confirmButtonText: "确定",
+            //    closeOnConfirm: false
+            //}, function () {
+            //    $.ajax({
+            //        url: "/SystemManage/MemberUpgradeApply/UpdateState",
+            //        type: 'post',
+            //        data: { keyValue: row.F_Id },
+            //        success: function (result) {
+            //            if (result == '操作成功') {
+            //                setTimeout(function () {
+            //                    toastr.options = {
+            //                        closeButton: true,
+            //                        progressBar: true,
+            //                        showMethod: 'slideDown',
+            //                        timeOut: 500
+            //                    };
+            //                    toastr.success('操作成功！');
+            //                }, 100);
+            //                setTimeout(function () {
+            //                    window.location.reload();
+            //                }, 600);
+            //            }
+            //        }
+            //    });
+            //});
+        }
+    }
+
+    // 条件查询
+    function queryMember(status) {
+        if (status == undefined) {
+            status = queryStatus;
+        } else {
+            queryStatus = status;
+        }
+       
+        $.ajax({
+            type: "get",
+            url: "/SystemManage/MemberUpgradeApply/GetGridJson",
+            data: { keyword: $("#phone").val(), status: status, limit: 10, offset: 0 },
+            dataType: "json",
+            success: function (json) { 
+                $("#tb_departments").bootstrapTable('load', json);//主要是要这种写法
+            }
+        });
+    }
+     
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>系统管理</a>
+            </li>
+            <li class="active">
+                <strong>会员升级申请管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>会员升级申请列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-inline">
+                        <div data-toggle="buttons" class="btn-group">
+                            <label class="btn btn-white active" onclick="queryMember(1)"><input type="radio" id="option1" name="options">待审核</label>
+                            <label class="btn btn-white" onclick="queryMember(2)"><input type="radio" id="option2" name="options">已审核</label> 
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="电话" name="name" id="phone" />
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="queryMember()">查询</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="tb_departments"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

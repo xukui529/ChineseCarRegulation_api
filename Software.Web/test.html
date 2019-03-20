@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="jquery-2.1.1.min.js"></script> 
+    <script src="jquery.md5.js"></script>
+    <script> 
+     
+			$.ajax({
+				type: "POST",
+				url: "http://47.92.160.129:8080/OtherService.asmx/GetMemberInfo" ,
+				data:"{'memberId': '4c2053d1-a8fa-4ac4-9239-a3124c29e1e3'}",
+				dataType: "json",
+				contentType: "application/json;charset=utf-8",
+				success: function(data) {
+					 console.log(data);
+				}
+			});
+		 
+    </script>
+</head>
+
+<body>
+    22222
+</body>
+</html>

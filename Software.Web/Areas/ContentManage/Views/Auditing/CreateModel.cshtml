@@ -1,0 +1,752 @@
+﻿
+@{
+	ViewBag.Title = "新建文档";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function checkFileState(text) {
+        if (text != '有效' && text != '废止') {
+            $("#F_ImplementDate").val('');
+            $("#divF_ImplementDateId").hide();
+        }
+        else {
+            $("#divF_ImplementDateId").show();
+        }
+    }
+	$(function () {
+			var editId = '@ViewData["id"]'
+			changeFileType();
+			// 状态
+			$.ajax({
+				url: '/SystemManage/ItemsData/GetSelectJson?enCode=DocumentState',
+				datatype: 'json',
+				type: 'get',
+				async: false,
+				success: function (result) {
+					var strState='';
+					if (result != '' && result != null) {
+						var obj = eval('(' + result + ')');
+						$.each(obj, function () {
+							this.isCheck = false;
+                            strState += '<label class="radio-inline"><input type="radio"   onclick="checkFileState(\'' + this.text +'\')"  name="F_FileState" id="state' + this.id + '" value="' + this.id + '">' + this.text + '</label>'
+						});
+						$('#state_Id').html(strState);
+					}
+				}
+			});
+			// 领域
+			$.ajax({
+				url: '/SystemManage/ItemsData/GetSelectJson?enCode=DocumentDomain',
+				datatype: 'json',
+				type: 'get',
+				async: false,
+				success: function (result) {
+					var strDomain = '';
+					if (result != '' && result != null) {
+						var obj = eval('(' + result + ')');
+						$.each(obj, function () {
+							this.isCheck = false;
+							strDomain += '<label class="checkbox-inline"><input type="checkbox" name="Domain" id="domain' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+						});
+						$('#F_Domain').html(strDomain);
+					}
+				}
+			});
+			// 采标
+			$.ajax({
+				url: '/SystemManage/ItemsData/GetSelectJson?enCode=CaiBiao',
+				datatype: 'json',
+				type: 'get',
+				async: false,
+				success: function (result) {
+					var caibiaoData = '';
+					if (result != '' && result != null) {
+						var obj = eval('(' + result + ')');
+						$.each(obj, function () {
+							this.isCheck = false;
+							caibiaoData += '<label class="radio-inline"><input type="radio" name="F_AcquisitionStandard" id="acquisitionStandard' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+						});
+						$("#F_CaiBiao").append(caibiaoData);
+					}
+				}
+			});
+			// 发布方
+			$.ajax({
+				url: '/SystemManage/ItemsData/GetSelectJson?enCode=Publisher',
+				datatype: 'json',
+				type: 'get',
+				async: false,
+				success: function (result) {
+					var publisherData = '';
+					if (result != '' && result != null) {
+						var obj = eval('(' + result + ')');
+						$.each(obj, function () {
+							this.isCheck = false;
+							publisherData += '<label class="checkbox-inline"><input type="checkbox" name="Publisher" id="publisher' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+						});
+						$("#F_Publisher").append(publisherData);
+					}
+				}
+			});
+			// 方向
+			$.ajax({
+				url: '/SystemManage/ItemsData/GetSelectJson?enCode=Direction',
+				datatype: 'json',
+				type: 'get',
+				async: false,
+				success: function (result) {
+					var directionData = '';
+					if (result != '' && result != null) {
+						var obj = eval('(' + result + ')');
+						$.each(obj, function () {
+							this.isCheck = false;
+							directionData += '<label class="checkbox-inline"><input type="checkbox" name="Direction" id="direction' + this.id + '" value="' + this.id + '">' + this.text + '</label>';
+						});
+						$("#F_Direction").append(directionData);
+					}
+				}
+		});
+
+		Date.prototype.Format = function (fmt) {
+			var o = {
+				"M+": this.getMonth() + 1,
+				"d+": this.getDate(),
+				"h+": this.getHours(),
+				"m+": this.getMinutes(),
+				"s+": this.getSeconds(),
+				"q+": Math.floor((this.getMonth() + 3) / 3),
+				"S": this.getMilliseconds()
+			};
+			if (/(y+)/.test(fmt))
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt))
+					fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+
+		if (editId != '' && editId != null) {
+			// 类型
+			$("#F_Type option[value='@Model.F_Type']").attr('selected', true);
+            changeFileType();
+
+			// 文件
+			$("#hidTotalUrl").val('@Model.F_TotalUrl');
+			$("#hidChineseUrl").val('@Model.F_ChineseUrl');
+			$("#hidEnglishUrl").val('@Model.F_EnglishUrl');
+			$("#hidHtmlContent").val('@Model.F_HtmlUrl');
+			// 标签
+			document.getElementById("F_Label").innerHTML = '@Model.F_Label';
+			// 状态
+			var selectsFileState = document.getElementsByName("F_FileState");
+			for (var i = 0; i < selectsFileState.length; i++) {
+				if (selectsFileState[i].value == '@Model.F_FileState') {
+                    $('#' + selectsFileState[i].id + '').attr("checked", "checked"); 
+                       checkFileState(selectsFileState[i].text);
+					break;
+				}
+			}
+			// 领域
+			var selectsDomain = document.getElementsByName("Domain");
+			var strDomainInit = '@Model.F_Domain';
+			if (strDomainInit != '' && strDomainInit != null) {
+				var strDomainArray = strDomainInit.split('^');
+				if (strDomainArray.length > 0) {
+					strDomainArray.forEach(function (domain) {
+						for (var i = 0; i < selectsDomain.length; i++) {
+							if (selectsDomain[i].value == domain) {
+								$('#' + selectsDomain[i].id + '').attr("checked", "checked");
+								break;
+							}
+						}
+					});
+				}
+			}
+
+			// 采标
+			var selectsAcquisitionStandard = document.getElementsByName("F_AcquisitionStandard");
+			for (var i = 0; i < selectsAcquisitionStandard.length; i++) {
+				if (selectsAcquisitionStandard[i].value == '@Model.F_AcquisitionStandard') {
+					$('#' + selectsAcquisitionStandard[i].id + '').attr("checked", "checked");
+					break;
+				}
+			}
+			// 发布方
+			var selectsPublisher = document.getElementsByName("Publisher");
+			var strPublisherInit = '@Model.F_Publisher';
+			if (strPublisherInit != '' && strPublisherInit != null) {
+				var strPublisherArray = strPublisherInit.split('^');
+				if (strPublisherArray.length > 0) {
+					strPublisherArray.forEach(function (publisher) {
+						for (var i = 0; i < selectsPublisher.length; i++) {
+                            if (selectsPublisher[i].value == publisher) {
+                                $('#' + selectsPublisher[i].id + '').attr("checked", "checked");
+								break;
+							}
+						}
+					});
+				}
+			}
+			// 方向
+			var selectsDirection = document.getElementsByName("Direction");
+			var strDirectionInit = '@Model.F_Direction';
+			var strDirectionArray = strDirectionInit.split('^');
+			if (strDirectionInit != '' && strDirectionInit != null) {
+				if (strDirectionArray.length > 0) {
+					strDirectionArray.forEach(function (direction) {
+						for (var i = 0; i < selectsDirection.length; i++) {
+							if (selectsDomain[i].value == direction) {
+								$('#' + strDirectionArray[i].id + '').attr("checked", "checked");
+								break;
+							}
+						}
+					});
+				}
+			}
+		} else {
+			// 编辑按钮
+			$('#btnPreviewFile').css("display", "none");
+			$('#btnPreviewEdit').css("display", "none");
+		}
+
+
+			$("#form").steps({
+				bodyTag: "section",
+				labels: {
+					finish: "提交审核", // 修改按钮得文本
+					next: "下一步", // 下一步按钮的文本
+					previous: "上一步", // 上一步按钮的文本
+					loading: "加载中 ..."
+				},
+				onInit: function (event, currentIndex) {
+					if ('@ViewData["id"].ToString()' == "") {
+						var fileTypeVal3 = parseInt($('#F_Type').val());
+						if (fileTypeVal3 != 3) {
+							var validData = {
+								F_ChineseTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入中文标题'
+										},
+									}
+								},
+								F_EnglishTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入英文标题'
+										},
+									}
+								},
+								uploadfile: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请选择上传文件'
+										},
+									}
+								}, F_ReleaseDate: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请选择发布日期'
+										},
+									}
+								},
+								F_ImplementDate: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请选择实施日期'
+										},
+									}
+								},
+							};
+						} else {
+							var validData = {
+								F_ChineseTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入中文标题'
+										},
+									}
+								},
+								F_EnglishTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入英文标题'
+										},
+									}
+								},
+							};
+						}
+
+					} else {
+					var startDate = new Date('@Model.F_ReleaseDate').Format('yyyy-MM-dd');
+					$('#F_ReleaseDate').val(startDate);
+						var endDate = new Date('@Model.F_ImplementDate').Format('yyyy-MM-dd');
+						var answerEdit = $("#hid_note2").val();
+						$('#note1').summernote('code', answerEdit);
+						$('#btnPreviewFile').css("display", "none");
+						$('#btnPreviewEdit').css("display", "block");
+						$('#F_ImplementDate').val(endDate);
+						var fileTypeVal2 = parseInt($('#F_Type').val());
+						if (fileTypeVal2 != 3) {
+							var validData = {
+								F_ChineseTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入中文标题'
+										},
+									}
+								},
+								F_EnglishTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入英文标题'
+										},
+									}
+								},
+								F_ReleaseDate: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请选择发布日期'
+										},
+									}
+								},
+								F_ImplementDate: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请选择实施日期'
+										},
+									}
+								},
+							};
+						} else {
+							var validData = {
+								F_ChineseTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入中文标题'
+										},
+									}
+								},
+								F_EnglishTitle: {
+									validators: {
+										notEmpty: {//检测非空,radio也可用
+											message: '请输入英文标题'
+										},
+									}
+								}
+							};
+						}
+
+					}
+
+
+					$("#form").bootstrapValidator({
+						live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+						excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
+						submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+						message: '通用的验证失败消息',//好像从来没出现过
+						feedbackIcons: {//根据验证结果显示的各种图标
+							valid: 'glyphicon glyphicon-ok',
+							invalid: 'glyphicon glyphicon-remove',
+							validating: 'glyphicon glyphicon-refresh'
+						},
+						fields: validData
+					});
+					// 开始日期
+					$('#data_Release .input-group.date').datepicker({
+						todayBtn: "linked",
+						keyboardNavigation: false,
+						forceParse: false,
+						calendarWeeks: false,
+						autoclose: true,
+						todayHighlight: true,
+						todayBtn: false,
+						language: "zh-CN",
+						format: "yyyy-mm-dd",
+						//endDate: new Date()
+					}).on('changeDate', function (ev) {
+						if (ev.date) {
+							$("#data_Implement .input-group.date").datepicker('setStartDate', new Date(ev.date.valueOf()))
+						} else {
+							$("#data_Implement .input-group.date").datepicker('setStartDate', null);
+						}
+						});
+					// 实施日期
+					$('#data_Implement .input-group.date').datepicker({
+						todayBtn: "linked",
+						keyboardNavigation: false,
+						forceParse: false,
+						calendarWeeks: false,
+						todayHighlight: true,
+						autoclose: true,
+						todayBtn: false,
+						language: "zh-CN",
+						format: "yyyy-mm-dd",
+						//endDate: new Date()
+					}).on('changeDate', function (ev) {
+						if (ev.date) {
+							$("#data_Release .input-group.date").datepicker('setEndDate', new Date(ev.date.valueOf()))
+						} else {
+							$("#data_Release .input-group.date").datepicker('setEndDate', null);
+						}
+					});
+				},
+				onStepChanging: function (event, currentIndex, newIndex) {
+					if (currentIndex = 1) {//第二步操作
+						$("#form").bootstrapValidator('validate');//提交验证
+						if (!$("#form").data('bootstrapValidator').isValid()) {
+							return false;
+						} else {
+							var id = '@ViewData["id"].ToString()';
+							var fileTypeVal4 = parseInt($('#F_Type').val());
+							if (fileTypeVal4 != 3) {
+								if (id == '' || id == null) {
+									var isTurnStep = false;
+									var fd1 = new FormData();
+									fd1.append("uploadfile", document.getElementById('uploadfile').files[0]);
+									var xhr1 = new XMLHttpRequest();
+									xhr1.open("POST", "/ContentManage/Auditing/SaveFile", false);   //Controller里边UploadFile方法
+									xhr1.send(fd1);
+									if (xhr1.readyState == 4 && xhr1.status == 200) {
+										var obj = eval('(' + xhr1.responseText + ')');
+										$("#hidChineseUrl").val(obj.ChineseUrl);
+										$("#hidEnglishUrl").val(obj.EnglishUrl);
+										$("#hidHtmlContent").val(obj.HtmlUrl);
+										$("#hidTotalUrl").val(obj.TotalUrl);
+										isTurnStep = true;
+									}
+									return isTurnStep;
+								} else {
+									if ($("#uploadfile").val() != '' && $("#uploadfile").val() != null) {
+										var isTurnStep = false;
+										var fd1 = new FormData();
+										fd1.append("uploadfile", document.getElementById('uploadfile').files[0]);
+										var xhr1 = new XMLHttpRequest();
+										xhr1.open("POST", "/ContentManage/Auditing/SaveFile", false);   //Controller里边UploadFile方法
+										xhr1.send(fd1);
+										if (xhr1.readyState == 4 && xhr1.status == 200) {
+											var obj = eval('(' + xhr1.responseText + ')');
+											$("#hidChineseUrl").val(obj.ChineseUrl);
+											$("#hidEnglishUrl").val(obj.EnglishUrl);
+											$("#hidHtmlContent").val(obj.HtmlUrl);
+											$("#hidTotalUrl").val(obj.TotalUrl);
+											isTurnStep = true;
+										}
+										return isTurnStep;
+									} else { return true; }
+								}
+							} else {
+								return true;
+							}
+
+						}
+					} else {
+						if (currentIndex > newIndex) {
+							return true;
+						}
+						var form = $(this);
+						if (currentIndex < newIndex) {
+							$(".body:eq(" + newIndex + ") label.error", form).remove();
+							$(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+						}
+						return true;
+					}
+
+				},
+				onStepChanged: function (event, currentIndex, priorIndex) {
+					if (currentIndex === 1) {
+						var fileTypeVal2 = parseInt($('#F_Type').val());
+						var htmlUrl = $("#hidTotalUrl").val();
+						var strEditId = '@ViewData["id"].ToString()';
+						$('#note1').summernote({
+							lang: 'zh-CN',
+							codemirror: {
+								theme: 'monokai'
+							},
+							disableDragAndDrop: true,
+						});
+						var isEdit = false;
+						if (strEditId != '' && strEditId != null) {
+							isEdit = true;
+							$('#note1').summernote('destroy');
+						}
+						$.ajax({
+							url: '/ContentManage/DocumentUpload/GetWordContent?keyValue=' + htmlUrl + "&isEdit=" + isEdit,
+							datatype: 'json',
+							type: 'get',
+							async: false,
+							success: function (result) {
+								if (result != '' && result != null) {
+									$('#hidChineseId').val(result);
+									var answer = $("#hidChineseId").val();
+									$('#note1').summernote('code', answer);
+									$('#note1').summernote('destroy');
+								}
+							}
+						});
+					}
+					if (currentIndex === 2 && priorIndex === 3) {
+						$(this).steps("previous");
+					}
+				},
+				onFinishing: function (event, currentIndex) {
+					return true;
+				},
+				onFinished: function (event, currentIndex) {
+					var fileTypeVal3 = parseInt($('#F_Type').val());
+					if (fileTypeVal3 == 3) {
+						btnSave(3);
+					} else {
+						btnSave(1);
+					}
+
+				}
+			});
+	});
+
+	function btnSave(index) {
+		var keyValue = '@ViewData["id"]';
+		var url = "/ContentManage/Auditing/CreateModel?keyValue=" + keyValue;
+		if (index == 3) {
+			url = "/ContentManage/Auditing/CreateZiXunModel?keyValue=" + keyValue;
+		}
+		$("#hid_note2").val($('#note1').summernote('code'));
+		var fileTypeVal = parseInt($('#F_Type').val());
+		if (fileTypeVal == 1) {
+			// 领域
+			var strDomainCheckedVal = '';
+			$("input:checkbox[name='Domain']:checked").each(function (item) { // 遍历name=test的多选框
+				strDomainCheckedVal += $(this).val() + '^';
+			});
+			strDomainCheckedVal = strDomainCheckedVal.substr(0, strDomainCheckedVal.length - 1);
+			$("#hid_Domain").val(strDomainCheckedVal);
+		}
+		if (fileTypeVal == 2) {
+			// 发布方
+			var strPublisherCheckedVal = '';
+			$("input:checkbox[name='Publisher']:checked").each(function (item) { // 遍历name=test的多选框
+				strPublisherCheckedVal += $(this).val() + '^';
+			});
+			strPublisherCheckedVal = strPublisherCheckedVal.substr(0, strPublisherCheckedVal.length - 1);
+			$("#hid_Publisher").val(strPublisherCheckedVal);
+			// 方向
+			var strDirectionCheckedVal = '';
+			$("input:checkbox[name='Direction']:checked").each(function (item) { // 遍历name=test的多选框
+				strDirectionCheckedVal += $(this).val() + '^';
+			});
+			strDirectionCheckedVal = strDirectionCheckedVal.substr(0, strDirectionCheckedVal.length - 1);
+			$("#hid_Direction").val(strDirectionCheckedVal);
+		}
+		var data = $("#form").serialize();
+		$.ajax({
+			url: url,
+			type: 'post',
+			data: data,
+			success: function (result) {
+				if (result == '操作成功') {
+					setTimeout(function () {
+						toastr.options = {
+							closeButton: true,
+							progressBar: true,
+							showMethod: 'slideDown',
+							timeOut: 500
+						};
+						toastr.success('操作成功！');
+					}, 100);
+					setTimeout(function () {
+						window.location.href = "/ContentManage/Auditing/Index";
+					}, 600);
+				}
+			}
+		});
+	}
+
+	function changeFileType() {
+		var fileStateVal = parseInt($('#F_Type').val());
+		if (fileStateVal == 1) {
+			$('#div_state').css("display", "block");
+			$('#div_domain').css("display", "block");
+			$('#div_caiBiao').css("display", "block");
+			$('#div_publisher').css("display", "none");
+			$('#div_direction').css("display", "none");
+			$('#divF_ReleaseDateId').css("display", "block");
+			$('#divF_ImplementDateId').css("display", "block");
+			$('#div_uploadfileId').css("display", "block");
+		}
+		if (fileStateVal == 2) {
+			$('#div_state').css("display", "block");
+			$('#div_domain').css("display", "none");
+			$('#div_caiBiao').css("display", "none");
+			$('#div_publisher').css("display", "block");
+			$('#div_direction').css("display", "block");
+			$('#divF_ReleaseDateId').css("display", "block");
+			$('#divF_ImplementDateId').css("display", "block");
+			$('#div_uploadfileId').css("display", "block");
+		}
+		if (fileStateVal == 3) {
+			$('#div_state').css("display", "none");
+			$('#div_domain').css("display", "none");
+			$('#div_caiBiao').css("display", "none");
+			$('#div_publisher').css("display", "none");
+			$('#div_direction').css("display", "none");
+			$('#divF_ReleaseDateId').css("display", "none");
+			$('#divF_ImplementDateId').css("display", "none");
+			$('#div_uploadfileId').css("display", "none");
+		}
+	}
+
+	function previewFileNote() {
+		$('#note1').summernote('destroy');
+		$('#btnPreviewFile').css("display", "none");
+		$('#btnPreviewEdit').css("display", "block");
+	}
+
+	function previewEditNote() {
+		$('#note1').summernote({ focus: true });
+		$('#btnPreviewFile').css("display", "block");
+		$('#btnPreviewEdit').css("display", "none");
+	}
+
+	function previewFile() {
+		var fd = new FormData();
+		fd.append("uploadfile", document.getElementById('uploadfile').files[0]);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/ContentManage/Auditing/UploadFilePreview");   //Controller里边UploadFile方法
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				$('#tb1').html(xhr.responseText);
+			}
+		};
+		xhr.send(fd);
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>内容管理</a>
+			</li>
+			<li class="active">
+				<strong>文档上传</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>新建文档</h5>
+				</div>
+				<div class="ibox-content">
+					<form id="form" class="wizard-big">
+						<input type="hidden" id="hidChineseId" />
+						<input type="hidden" id="F_HtmlContent" name="F_HtmlContent" />
+						<input type="hidden" id="hidChineseUrl" name="F_ChineseUrl" />
+						<input type="hidden" id="hidEnglishUrl" name="F_EnglishUrl" />
+						<input type="hidden" id="hidHtmlContent" name="F_HtmlUrl" />
+						<input type="hidden" id="hidTotalUrl" name="F_TotalUrl" />
+						@Html.AntiForgeryToken()
+						<h1>新建标准信息</h1>
+						<section>
+							<div class="row">
+								<div class="col-lg-8">
+									<div class="form-group">
+										<label>文档分类</label>
+										<select class="form-control" id="F_Type" name="F_Type" onchange="changeFileType()">
+											<option value="1">标准</option>
+											<option value="2">法规</option>
+                                            <option value="3">资讯</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>中文标题</label>
+										<input type="text" class="form-control" placeholder="中文标题" name="F_ChineseTitle" id="F_ChineseTitle" value="@Model.F_ChineseTitle">
+									</div>
+									<div class="form-group">
+										<label>英文标题</label>
+										<input type="text" class="form-control" placeholder="英文标题" name="F_EnglishTitle" id="F_EnglishTitle" value="@Model.F_EnglishTitle">
+									</div>
+									<div class="form-group" id="div_state">
+										<label>状态</label>
+										<div id="state_Id">
+
+										</div>
+									</div>
+									<div class="form-group" id="div_domain">
+										<label>领域</label>
+										<div id="F_Domain">
+										</div>
+										<input type="hidden" name="F_Domain" id="hid_Domain" />
+									</div>
+									<div class="form-group" id="div_caiBiao">
+										<label>采标</label>
+										<div id="F_CaiBiao">
+										</div>
+									</div>
+									<div class="form-group" id="div_publisher">
+										<label>发布方</label>
+										<div id="F_Publisher">
+										</div>
+										<input type="hidden" name="F_Publisher" id="hid_Publisher" />
+									</div>
+									<div class="form-group" id="div_direction">
+										<label>方向</label>
+										<div id="F_Direction">
+										</div>
+										<input type="hidden" name="F_Direction" id="hid_Direction" />
+									</div>
+									<div class="form-group" id="divF_ReleaseDateId">
+										<label>发布日期</label>
+										<div id="data_Release">
+											<div class="input-group date">
+												<input type="text" class="form-control" name="F_ReleaseDate" id="F_ReleaseDate" readonly="readonly">
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="divF_ImplementDateId">
+										<label>实施日期</label>
+										<div id="data_Implement">
+											<div class="input-group date">
+												<input type="text" class="form-control" name="F_ImplementDate" id="F_ImplementDate" readonly="readonly">
+												<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="divF_Lable">
+										<label>标签</label>
+										<textarea class="form-control col-sm-3" name="F_Label" id="F_Label"></textarea>
+									</div>
+									<div class="form-group" id="div_uploadfileId">
+										<label>上传文件</label>
+										<input type="file" name="uploadfile" id="uploadfile" />
+									</div>
+								</div>
+							</div>
+						</section>
+						<h1>调整标准内容</h1>
+						<section>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-group">
+										<input type="button" value="预览" id="btnPreviewFile" class="btn btn-info" onclick="previewFileNote()" />
+										<input type="button" value="编辑" id="btnPreviewEdit" class="btn btn-info" onclick="previewEditNote()" style="display:none" />
+									</div>
+									<div class="summernote" id="note1">
+									</div>
+									<input type="hidden" id="hid_note2" name="Hid_ZiXunContent" value="@Model.F_InfoContent" />
+								</div>
+							</div>
+						</section>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,120 @@
+#content {
+    width: 100%;
+    background-color: #f1f1f1;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.center {
+    width: 85%;
+    margin: 0 auto;
+}
+.nav-title{
+    height: 120px;
+}
+.nav-title h1{
+    height: 100%;
+    padding:35px 0 50px 20px;
+    color: #0c7dcf;
+    font-size: 30px;
+}
+.nav-content{
+    background-color: #ffffff;
+    padding-bottom: 34px;
+    display: flex;
+    overflow: hidden;
+}
+.nav-left{
+    width: 206px;
+}
+.nav-right{
+    border-left: 1px solid #e8e8e8;
+    flex: 1;
+    position: relative;
+}
+/*.nav-right>div{*/
+    /*position: absolute;*/
+/*}*/
+ul li{
+    list-style: none;
+    text-align: center;
+}
+.nav-left li a{
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    /*height: 100%;*/
+    font-size: 14px;
+    padding: 12px 0;
+    color: #717171;
+}
+.nav-left a:hover{
+    background-color: #e6f7ff;
+    color: #2094ff;
+}
+.nav-left a:hover:after{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    width: 0;
+    height: 40px;
+    border-right: 2px solid #1890ff;
+}
+.nav-header{
+    height: 146px;
+    padding: 60px 0;
+    box-sizing: border-box;
+    font-size: 0;
+}
+.nav-header:after,.nav-header:before{
+    content: "";
+    display: inline-block;
+    width: 40%;
+    height: 0;
+    border-bottom: 1px dashed grey;
+}
+.nav-header h5{
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    font-size: 12px;
+}
+.nav-list{
+    padding: 0 50px;
+}
+.nav-list ul{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.nav-list li{
+    width: 30%;
+    height: 130px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.nav-list a {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+.nav-list a h5{
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.nav-list a p{
+    font-size: 12px;
+    text-align: left;
+    font-family: sans-serif;
+}
+.nav-list li:hover{
+    border: 1px solid #1890ff;
+    background-color: #e6f7ff;
+    color: #4a90e2;
+}

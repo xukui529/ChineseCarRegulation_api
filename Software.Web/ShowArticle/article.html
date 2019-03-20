@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>article</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link cssd="aabb" rel="stylesheet" href="css/article.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+
+    <!--<script src="js/jquery.min.js"></script>-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer/layer.js"></script>
+
+    <script src="js/html2canvas.js"></script>
+    <script src="js/jspdf.debug.js"></script>
+    <script src="js/article.js"></script>
+    <script>
+        $(function () {
+            $('.headerpage').load("header.html");
+            $('.footerpage').load("footer.html");
+        })
+    </script>
+</head>
+<body>
+    <div id="stage">
+        <div id="header"  style="display:none">
+            <!-- logo 注册登录 -->
+            <div id="headerNav">
+                <!-- 左边logo -->
+                <div id="logo">
+                    <span></span>
+                </div>
+                <!-- 右边登录注册 -->
+                <div id="navright">
+                    <ul id="aboutus">
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">帮助</a></li>
+                    </ul>
+                    <ul id="enchina">
+                        <li id="china">
+                            <b></b>
+                            <a href="#">中文</a>
+                        </li>
+                        <li id="english">
+                            <b></b>
+                            <a href="#">英文</a>
+                        </li>
+                    </ul>
+                    <ul id="reg">
+                        <li><a href="register.html" target="_blank">注册</a></li>
+                        <li><a href="login.html" target="_blank">登录</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 导航条 -->
+            <div id="commNav">
+                <ul id="navContent">
+                    <li><a href="index.html" target="_blank">首页</a></li>
+                    <li><a href="standarSeach.html" target="_blank">标准检索</a></li>
+                    <li><a href="search.html">法规检索</a></li>
+                    <li><a href="list.html" target="_blank">标准法规动态</a></li>
+                    <li><a href="" target="_blank">最新翻译</a></li>
+                    <li><a href="navCenter.html" target="_blank">链接</a></li>
+                </ul>
+
+            </div>
+        </div>
+        <div id="content">
+            <div class="center">
+                <div id="day" class="white">
+                    <div id="menu" class="clearfix">
+                        <div>
+                            <div id="fontSize">
+                                <span>字号：</span>
+                                <button id="small" data-index=1>小</button>
+                                <button id="middle" data-index=2>中</button>
+                                <button id="big" data-index=3>大</button>
+                            </div>
+                            <div id="mode">
+                                <span>模式：</span>
+                                <button id="sun"></button>
+                                <button id="moon"></button>
+                            </div>
+                            <!--<div id="artSearch">-->
+                            <!--<input type="text" placeholder="文内搜索"/>-->
+                            <!--<button class="search"></button>-->
+                            <!--</div>-->
+                        </div>
+                        <div>
+                            <div id="language">
+                                <button class="china">中文</button>
+                                <button class="english">EN</button>
+                                <button class="shu active"></button>
+                                <button class="heng"></button>
+                            </div>
+                            <div id="download">
+                                <button style="display:none"></button>
+                                <span  style="display:none">下载</span>
+                            </div>
+                            <div id="print">
+                                <button style="display:none"></button>
+                                <span  style="display:none">打印</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="article-header" style="display:none">
+                    <div class="line1 clearfix">
+                        <div id="bread-nav">
+                            <a href="">首页</a>
+                            <span>/</span>
+                            <a href="">标准搜索</a>
+                            <span>/</span>
+                            <a href="">标准详情</a>
+                        </div>
+                        <div class="collection">
+                            <a href="javascript:void(0)" id="like">
+                                <span class="no-heart fav"></span>
+                                <span class="wenzi">未收藏</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="line2 clearfix">
+                        <div class="art-title">
+                            <h3 style="font-size: 22px">
+                                电动汽车用锂离子动力蓄电池包和系统 第一部分：高功率应用测试规程
+                                <div class="flag">
+                                    <span class="point"> </span>
+                                    <span>现行</span>
+                                </div>
+                            </h3>
+
+                        </div>
+
+                        <div class="en-art-title">
+                            <h3 style="font-size: 16px">
+                                Lithium-ion traction battery pack and system for Electric vehicles
+                                Part 1: Test
+                                specification for High power applications
+                                <div class="flag">
+                                    <span class="point"> </span>
+                                    <span>new</span>
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="line3">
+                        <div class="issuedDate">
+                            <p>发布日期 （Date issued） ：<span>2017-01-10</span></p>
+                        </div>
+                        <div class="effectiveDate">
+                            <p>实施日期 （Effective Date） ：<span>2017-01-10</span></p>
+                        </div>
+                        <div class="label">
+                            <span>中文标签</span>
+                            <span>English</span>
+                        </div>
+                    </div>
+                </div>
+                <article id="article">
+                    <h3>加载中...</h3>
+                </article>
+                <div id="contents" style="display: none">
+                    <div class="contents_bor">
+                        <ul id="contents_list">
+                            <li>
+                                <a href=""></a>
+                                <b>前言</b>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                                <b>汽车侧面碰撞的乘员保护</b>
+                                <ul>
+                                    <li>1 范围</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                                <b>附录A机动车座椅位置的H点和实际</b>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                                <b>附录B碰撞试验程序</b>
+                            </li>
+                            <li>
+                                <a href=""></a>
+                                <b>附录C移动变形壁撞的特性</b>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button id="mulu" style="display:none"></button>
+                <button id="backTop"></button>
+            </div>
+        </div>
+        <div id="footer"   style="display:none">
+            <div id="service">
+                <ul id="service_list">
+                    <li>
+                        <ul class="service_list_colomu">
+                            <li>
+                                <h3>产品</h3>
+                            </li>
+                            <li><a href="#">高级搜索</a></li>
+                            <li><a href="#">分类搜索</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="service_list_colomu">
+                            <li>
+                                <h3>服务</h3>
+                            </li>
+                            <li><a href="#">最近更新</a></li>
+                            <li><a href="#">汽车政策</a></li>
+                            <li><a href="#">成为会员</a></li>
+                            <li><a href="#">常见为题</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="service_list_colomu">
+                            <li>
+                                <h3>关于</h3>
+                            </li>
+                            <li><a href="#">使用条款</a></li>
+                            <li><a href="#">隐私协议</a></li>
+                            <li><a href="#">关于我们</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- 联系我们 -->
+                <div id="contact">
+                    <h2>联系我们</h2>
+                    <p>微博 微信 Facebook Twitter</p>
+                </div>
+            </div>
+            <div id="copyright">
+                <p>京ICP备14055711号-2 © 2012-2018 中国汽车法规标准库-在这里了解中国</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

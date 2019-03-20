@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/ShowArticle/js/jquery.min.js"></script>
+<script>
+
+    var editId = '@ViewData["id"]';
+    $(function () {
+        if (editId != '' && editId != null) {
+            changeSrc('@Model.F_TotalUrl');
+        }
+	});
+    function changeSrc(src) {
+        $("#PDFDownloadIframe").attr('src', src);
+        $('#PDFDownloadIframe').attr('src', $('#PDFDownloadIframe').attr('src'));
+        $("#PDFDownloadIframe").show();
+        $("#PDFDownloadA").attr('href', src);
+    }
+
+
+</script>
+<iframe id="PDFDownloadIframe" style="width:80%;height:600px;">
+    <a id="PDFDownloadA">下载 PDF</a>
+</iframe>
+

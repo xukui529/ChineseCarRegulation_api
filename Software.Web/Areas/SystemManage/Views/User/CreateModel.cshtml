@@ -1,0 +1,139 @@
+﻿
+@{	
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        var htmlData;
+        // 角色
+        $.ajax({
+            url: "/SystemManage/Role/GetGridJson",
+            dataType: "json",
+            type: 'get',
+            async: false,
+            success: function (result) {
+                if (result != '' && result != null) {
+                    $.each(result, function () {
+                        htmlData += '<option id=' + this.F_Id + ' value=' + this.F_Id + '>' + this.F_FullName + '</option>';
+                    });
+                    $("#F_RoleId").append(htmlData);
+                }
+            }
+        });
+        var id = "@ViewData["id"]";
+        if (id != '' && id != null) {
+            // 密码
+            $('#F_UserPassword').val('******');
+            // 角色
+            $("#F_RoleId option[value='@Model.F_RoleId']").attr('selected', true);
+
+            //编辑的时候不显示密码框
+            $('.HidePassWord').hide();
+        }
+    })
+
+    function btnSave() {
+        var keyValue = '@ViewData["id"]';
+        var data = $("#createUser").serialize();
+        $.ajax({
+            url: "/SystemManage/User/CreateModel?keyValue=" + keyValue,
+            type: 'post',
+            data: data,
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 500
+                        };
+                        toastr.success('操作成功！');
+                    }, 100);
+                    setTimeout(function () {
+                        window.location.href = '/SystemManage/User/Index';
+                    }, 600);
+                }
+            }
+        });
+	}
+
+	function btnBack() {
+		window.location.href = '/SystemManage/User/Index';
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>系统管理</a>
+			</li>
+			<li class="active">
+				<strong>员工管理</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>@ViewData["title"]</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="panel-body">
+						<form class="form-horizontal" id="createUser">
+							@Html.AntiForgeryToken()
+							<div class="form-group">
+								<label class="col-lg-2 control-label">账户</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" placeholder="账户" name="F_Account" id="F_Account" value="@Model.F_Account">
+								</div>
+							</div>
+							<div class="form-group HidePassWord">
+								<label class="col-lg-2 control-label">密码</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" placeholder="密码" name="F_UserPassword" id="F_UserPassword">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">姓名</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" placeholder="姓名" name="F_RealName" id="F_RealName" value="@Model.F_RealName">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">角色类型</label>
+								<div class="col-lg-6">
+									<select class="form-control" id="F_RoleId" name="F_RoleId">
+										<option value="">请选择</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">手机</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control" placeholder="手机" name="F_MobilePhone" id="F_MobilePhone" value="@Model.F_MobilePhone">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">备注</label>
+								<div class="col-lg-6">
+									<textarea id="F_Description" name="F_Description" class="form-control col-sm-3" value="@Model.F_Description">@Model.F_Description</textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button class="btn btn-success" type="button" onclick="btnSave()">保存</button>
+									<button class="btn btn-warning" type="button" onclick="btnBack()">返回</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

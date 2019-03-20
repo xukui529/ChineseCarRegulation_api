@@ -1,0 +1,141 @@
+body {
+  font-family : Microsoft YaHei;
+  padding:0;
+  margin:0;
+  width:100%;
+  height:100%;
+}
+*{
+	margin:0;
+	padding:0;
+}
+a {
+  text-decoration:none;
+  color:#000;
+}
+input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/* 头部 */
+#header{
+	width:100%;
+	height:160px;
+}
+#headerNav{
+	width:85%;
+	height:100px;
+	margin:0 auto;
+}
+#logo{
+	height:100%;
+	float: left;
+}
+#logo span{
+	margin-top:20px;
+	display: block;
+	width:329px;
+	height:60px;
+	background: url('../images/bg.png')  -80px -500px;
+}
+#navright{
+	height:35px;
+	float: right;
+	width:345px;
+	background:#ddd;
+	border-radius: 0 0 10px 10px;
+}
+#aboutus{
+	float:left;
+}
+#aboutus li{
+	font-size:15px;
+	list-style: none;
+	float:left;
+	margin-left:20px;
+
+}
+#aboutus li a{
+	display:block;
+	height:35px;
+	text-align: center;
+	line-height: 35px;
+	color:#000;
+}
+#aboutus li a:hover{
+	color:#0C7DCF;
+}
+/*中英文*/
+#enchina{
+	float: right;
+	width:100px;
+	height:35px;
+}
+#enchina li{
+	font-size:13px;
+	float:left;
+	list-style: none;
+	width:50px;
+}
+#enchina li a{
+	display:inline-block;
+	height:35px;
+	text-align: center;
+	line-height: 35px;
+}
+#china b{
+	display: inline-block;
+	width:16px;
+	height: 24px;
+	background: url('../images/bg.png')  -80px -129px;
+}
+#english b{
+	display: inline-block;
+	width:16px;
+	height: 24px;
+	background: url('../images/bg.png')  -160px -129px;
+}
+#reg{
+	float: right;
+}
+#reg li{
+	float:left;
+	list-style: none;
+	margin-right:20px;
+}
+#reg li a{
+	height:65px;
+	text-align: center;
+	line-height: 65px;
+	font-size: 17px;
+}
+/*导航条*/
+#commNav{
+	height:60px;
+	width:100%;
+	background: #0C7DCF;
+}
+#navContent{
+	height:100%;
+	width:50%;
+	margin:0 auto;
+}
+#navContent li{
+	margin-right:30px;
+	float: left;
+	list-style: none;
+}
+#navContent li a{
+	display: block;
+	color:#B3D6F0;
+	font-size:18px;
+	height:57px;
+	line-height: 57px;
+	border-bottom: 3px solid #0C7DCF
+}
+#navContent li a:hover{
+	color:#fff;
+	border-bottom: 3px solid #fff;
+	font-weight: bold;
+}

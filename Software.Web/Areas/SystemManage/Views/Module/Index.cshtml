@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        $.ajax({
+            url: '/SystemManage/Module/GetTreeGridJson',
+            datatype: 'json',
+            type: 'get',
+            success: function (result) {
+                var htmlData = '';
+                var htmlId = '';
+                if (result != '' && result != null) {
+					var obj = eval('(' + result + ')').rows; 
+                    $.each(obj, function () {
+                        htmlId = '"' + this.F_Id + '"';
+                        htmlData += '<tr>';
+                        htmlData += '<td>' + this.F_FullName + '</td>';
+                        htmlData += '<td>' + this.F_UrlAddress + '</td>';
+                        htmlData += "<td>";
+                        htmlData += "<button class='btn btn-primary btn-xs' onclick='btnUpdate(" + htmlId + ")'>编辑</button>&nbsp;&nbsp;";
+                        htmlData += "<button class='btn btn-info btn-xs' onclick='btnButtonUpdate(" + htmlId + ")'>按钮</button>&nbsp;&nbsp;";
+                        htmlData += "<button class='btn btn-danger btn-xs' name='btnDelete' onclick='btnDelete(" + htmlId + ")'>删除</button>";
+                        htmlData += "</td>";
+                        htmlData += '</tr>';
+                    });
+                    $("#dataTbodyId").append(htmlData);
+                }
+            }
+        });
+    }
+    function btnAddMenu() {
+        window.location.href = "/SystemManage/Module/CreateModel";
+    }
+
+    // 编辑
+    function btnUpdate(id) {
+        window.location.href = "/SystemManage/Module/CreateModel?keyValue=" + id + "";
+    }
+    // 添加按钮
+    function btnButtonUpdate(id) {
+        window.location.href = "/SystemManage/Module/ButtonUpdateModel?keyValue=" + id + "";
+    }
+
+    // 删除
+    function btnDelete(id) {
+        swal({
+            title: "删除",
+            text: "您确定要删除该数据吗？",
+            type: "warning",
+			showCancelButton: true,
+			cancelButtonText: "取消",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        }, function () {
+            $.ajax({
+                url: "/SystemManage/Module/DeleteForm",
+                type: 'post',
+                data: { keyValue: id },
+                success: function (result) {
+                    if (result == '删除成功') {
+                        setTimeout(function () {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 500
+                            };
+                            toastr.success('删除成功！');
+                        }, 100);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 600);
+                    }
+                }
+            });
+        });
+    }
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>工作台</a>
+            </li>
+            <li class="active">
+                <strong>菜单管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>分类列表</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-inline">
+                        <button type="button" class="btn btn-info" id="btn_add" onclick="btnAddMenu()">新增</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>链接</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dataTbodyId"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

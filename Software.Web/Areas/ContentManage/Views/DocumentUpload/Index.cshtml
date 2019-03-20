@@ -1,0 +1,622 @@
+﻿@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+	$(document).ready(function () {
+		$.ajax({
+			url: '/ContentManage/DocumentUpload/GetModelTotal',
+			datatype: 'json',
+			type: 'get',
+			async: false,
+			success: function (result) {
+				var obj = eval('(' + result + ')');
+                document.getElementById("nowEdit_id").innerHTML = obj.WaitSubmitTotal;//0
+                document.getElementById("auditTotal_id").innerHTML = obj.UnauditedTotal + obj.WaitPublishe + obj.AuditTotal ;// 1 2 3 
+                document.getElementById("publishedTotal_id").innerHTML = obj.PublishedTotal;//4
+			}
+		});
+		queryType(1);
+	});
+	function changeState(state) {
+		var stateResult = '';
+		if (state == 0) {
+            stateResult = "未提交";// 0未提交 1待审核 2待发布 3未通过 4已发布
+		} else if (state == 1) {
+            stateResult = "待审核";
+		} else if (state == 2) {
+            stateResult = "待发布";
+		} else if (state == 3) {
+            stateResult = "未通过";
+		} else if (state == 4) {
+            stateResult = "已发布";
+		} 
+		return stateResult;
+	}
+	function queryType(index) {
+		if (index == 1) {
+			$("#bigTypeId").val(1);
+			$("#type_zuixin").css("color", "#3399FF");
+			$("#type_fabu").css("color", "");
+			$("#type_shenhe").css("color", "");
+			$('#div_zuixin').css("display", "block");
+			$('#div_shenhe').css("display", "none");
+			$('#div_fabu').css("display", "none");
+			var zuixinTable = new zuixinTableInit();
+			zuixinTable.Init();
+		}
+		if (index == 2) {
+			$("#bigTypeId").val(2);
+			queryTypeVal = 2;
+			$("#type_shenhe").css("color", "#3399FF");
+			$("#type_zuixin").css("color", "");
+			$("#type_fabu").css("color", "");
+			$('#div_zuixin').css("display", "none");
+			$('#div_shenhe').css("display", "block");
+			$('#div_fabu').css("display", "none");
+			var shenheTable = new shenheTableInit();
+			shenheTable.Init();
+		}
+		if (index == 3) {
+			$("#bigTypeId").val(3);
+			$("#type_fabu").css("color", "#3399FF");
+			$("#type_zuixin").css("color", "");
+			$("#type_shenhe").css("color", "");
+			$('#div_zuixin').css("display", "none");
+			$('#div_shenhe').css("display", "none");
+			$('#div_fabu').css("display", "block");
+			var fabuTable = new fabuTableInit();
+			fabuTable.Init();
+		}
+	}
+	//---------------最新编辑------------------------
+	var zuixinTableInit = function () {
+		var zuixinTableInit = new Object();
+		//初始化Table
+		zuixinTableInit.Init = function () {
+			$('#tb_zuixin').bootstrapTable({
+				url: '/ContentManage/DocumentUpload/GetGridJson',         //请求后台的URL（*）
+				method: 'get',                      //请求方式（*）
+				toolbar: '#toolbar',                //工具按钮用哪个容器
+				checkboxHeader: false,
+				striped: true,                      //是否显示行间隔色
+				cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true,                   //是否显示分页（*）
+				sortable: false,                     //是否启用排序
+				sortOrder: "asc",                   //排序方式
+				queryParams: zuixinTableInit.queryParams,//传递参数（*）
+				sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+				pageNumber: 1,                       //初始化加载第一页，默认第一页
+				pageSize: 10,                       //每页的记录行数（*）
+				pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+				search: false,                       //是否显示表格搜索
+				strictSearch: false,
+				showColumns: false,                  //是否显示所有的列
+				showRefresh: false,                  //是否显示刷新按钮
+				minimumCountColumns: 2,             //最少允许的列数
+				clickToSelect: false,                //是否启用点击选中行
+				height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+				uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+				showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+				cardView: false,                    //是否显示详细视图
+				detailView: false,                   //是否显示父子表
+				columns: [{
+					checkbox: false,
+					visible: false
+				}, {
+					field: 'F_ChineseTitle',
+					title: '中文标题'
+				}, {
+					field: 'F_EnglishTitle',
+					title: '英文'
+				}, {
+					field: 'F_Label',
+					title: '标签'
+				}, {
+					field: 'F_CreatorUserName',
+					title: '编辑人'
+				}, {
+					field: 'F_LastModifyTime',
+					title: '最近保存',
+					formatter: function (value) {
+						return changeDateFormat(value)
+					}
+				}, {
+					field: 'Button',
+					title: '操作',
+					events: zuixinEvents,
+					formatter: AddZuiXin
+				},]
+			});
+		};
+
+		//得到查询的参数
+		zuixinTableInit.queryParams = function (params) {
+			var temp = { 
+				keyword: '',
+				sidx: 'F_Id',   //页面大小
+				sord: 'asc',  //页码
+				limit: params.limit,
+				offset: params.offset,
+				index: 1,
+				type: 1
+			};
+			return temp;
+		};
+		return zuixinTableInit;
+    };
+    function showInfo(id, type, F_TotalUrl) {
+        if (type == 3 && (F_TotalUrl != undefined && F_TotalUrl != null && F_TotalUrl != 'null' && F_TotalUrl != '')) {
+            //pdf 
+         
+           window.open("@(System.Configuration.ConfigurationManager.AppSettings["HostAddr"])ContentManage/DocumentUpload/ShowPdfInfo?id=" + id, "_blank");
+    
+        }
+        else {
+               window.open("@(System.Configuration.ConfigurationManager.AppSettings["HostAddr"])ContentManage/DocumentUpload/ShowInfo?id=" + id, "_blank");
+        }
+        //        window.open("/ShowArticle/article.html?id=" + id, "_blank");
+
+        
+    }
+	function AddZuiXin(value, row, index) {
+        var btnSubmit = ''; 
+		if (row.F_State == 1) {
+			btnSubmit = '<button class="btn btn-xs">提交</button>';
+		} else {
+			btnSubmit = '<button class="btn btn-info btn-xs" id="TableSet">提交</button>';
+        } 
+		return [
+            '<button class="btn btn-info btn-xs"  id="TableEdite">编辑文档</button> &nbsp;&nbsp;',
+            '<button class="btn btn-info btn-xs"  onclick="showInfo(\'' + row.F_Id + '\',\'' + row.F_Type + '\',\'' + row.F_TotalUrl + '\')">预览</button> &nbsp;&nbsp;',
+			btnSubmit
+		].join("")
+	}
+	window.zuixinEvents = {
+		// 编辑文档
+        "click #TableEdite": function (e, value, row, index) { 
+            SetEditUrl(row);
+		},
+		// 提交
+		"click #TableSet": function (e, value, row, index) {
+			$.ajax({
+				url: "/ContentManage/DocumentUpload/UpdateState?keyValue=" + row.F_Id + ""+"&state=1",
+				type: 'post',
+				success: function (result) {
+					if (result == '操作成功') {
+						setTimeout(function () {
+							toastr.options = {
+								closeButton: true,
+								progressBar: true,
+								showMethod: 'slideDown',
+								timeOut: 500
+							};
+							toastr.success('操作成功！');
+						}, 100);
+						setTimeout(function () {
+							window.location.href = "/ContentManage/DocumentUpload/Index";
+						}, 600);
+					}
+				}
+			});
+		}
+	}
+
+	//---------------审核环节------------------------
+	var shenheTableInit = function () {
+		var shenheTableInit = new Object();
+		//初始化Table
+		shenheTableInit.Init = function () {
+			$('#tb_shenhe').bootstrapTable({
+				url: '/ContentManage/DocumentUpload/GetGridJson',         //请求后台的URL（*）
+				method: 'get',                      //请求方式（*）
+				toolbar: '#toolbar',                //工具按钮用哪个容器
+				checkboxHeader: false,
+				striped: true,                      //是否显示行间隔色
+				cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true,                   //是否显示分页（*）
+				sortable: false,                     //是否启用排序
+				sortOrder: "asc",                   //排序方式
+				queryParams: shenheTableInit.queryParams,//传递参数（*）
+				sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+				pageNumber: 1,                       //初始化加载第一页，默认第一页
+				pageSize: 10,                       //每页的记录行数（*）
+				pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+				search: false,                       //是否显示表格搜索
+				strictSearch: false,
+				showColumns: false,                  //是否显示所有的列
+				showRefresh: false,                  //是否显示刷新按钮
+				minimumCountColumns: 2,             //最少允许的列数
+				clickToSelect: false,                //是否启用点击选中行
+				height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+				uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+				showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+				cardView: false,                    //是否显示详细视图
+				detailView: false,                   //是否显示父子表
+				columns: [{
+					checkbox: false,
+					visible: false
+				}, {
+					field: 'F_ChineseTitle',
+					title: '中文标题'
+				}, {
+					field: 'F_EnglishTitle',
+					title: '英文'
+                }, {
+                    field: 'F_LastModifyTime',
+                    title: '最近保存',
+                    formatter: function (value) {
+                        return changeDateFormat(value)
+                    }
+                },{
+                    field: 'F_State',
+                    title: '状态',
+                    formatter: function (value) {
+                        return changeState(value)
+                    }
+				}, {
+					field: 'Button',
+					title: '操作',
+					events: shenheEvents,
+					formatter: AddShenHe
+				},]
+			});
+		};
+
+		//得到查询的参数
+		shenheTableInit.queryParams = function (params) {
+			var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+				keyword: '',
+				sidx: 'F_Id',   //页面大小
+				sord: 'asc',  //页码
+				limit: params.limit,
+				offset: params.offset,
+				index: 1,
+				type: 2
+			};
+			return temp;
+		};
+		return shenheTableInit;
+	};
+
+    function AddShenHe(value, row, index) {
+        var btnStr = ''; 
+        if (row.F_State == 3) {
+            btnStr = '<button class="btn btn-default btn-xs" id="TableNowEdite">重新上传</button> &nbsp;&nbsp;';
+        } 
+        return [
+            '<button class="btn btn-info btn-xs"  onclick="showInfo(\'' + row.F_Id + '\',\'' + row.F_Type + '\',\'' + row.F_TotalUrl + '\')">预览</button> &nbsp;&nbsp;',
+            btnStr
+        ].join("");
+	}
+	window.shenheEvents = {
+		// 未通过
+		"click #TableNotThrough": function (e, value, row, index) {
+			$.ajax({
+				url: "/ContentManage/DocumentUpload/UpdateState?keyValue=" + row.F_Id + "" + "&state=3",
+				type: 'post',
+				success: function (result) {
+					if (result == '操作成功') {
+						setTimeout(function () {
+							toastr.options = {
+								closeButton: true,
+								progressBar: true,
+								showMethod: 'slideDown',
+								timeOut: 500
+							};
+							toastr.success('操作成功！');
+						}, 100);
+						setTimeout(function () {
+							window.location.href = "/ContentManage/DocumentUpload/Index";
+						}, 600);
+					}
+				}
+			});
+		},
+		// 已通过
+		"click #TableAdopt": function (e, value, row, index) {
+			$.ajax({
+				url: "/ContentManage/DocumentUpload/UpdateState?keyValue=" + row.F_Id + "" + "&state=4",
+				type: 'post',
+				success: function (result) {
+					if (result == '操作成功') {
+						setTimeout(function () {
+							toastr.options = {
+								closeButton: true,
+								progressBar: true,
+								showMethod: 'slideDown',
+								timeOut: 500
+							};
+							toastr.success('操作成功！');
+						}, 100);
+						setTimeout(function () {
+							window.location.href = "/ContentManage/DocumentUpload/Index";
+						}, 600);
+					}
+				}
+			});
+		},
+		// 马上修改
+        "click #TableNowEdite": function (e, value, row, index) { 
+            SetEditUrl(row);
+		}
+	}
+
+	//---------------已发布------------------------
+	var fabuTableInit = function () {
+		var fabuTableInit = new Object();
+		//初始化Table
+		fabuTableInit.Init = function () {
+			$('#tb_fabu').bootstrapTable({
+				url: '/ContentManage/DocumentUpload/GetGridJson',         //请求后台的URL（*）
+				method: 'get',                      //请求方式（*）
+				toolbar: '#toolbar',                //工具按钮用哪个容器
+				checkboxHeader: false,
+				striped: true,                      //是否显示行间隔色
+				cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true,                   //是否显示分页（*）
+				sortable: false,                     //是否启用排序
+				sortOrder: "asc",                   //排序方式
+				queryParams: fabuTableInit.queryParams,//传递参数（*）
+				sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+				pageNumber: 1,                       //初始化加载第一页，默认第一页
+				pageSize: 10,                       //每页的记录行数（*）
+				pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+				search: false,                       //是否显示表格搜索
+				strictSearch: false,
+				showColumns: false,                  //是否显示所有的列
+				showRefresh: false,                  //是否显示刷新按钮
+				minimumCountColumns: 2,             //最少允许的列数
+				clickToSelect: false,                //是否启用点击选中行
+				height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+				uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+				showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+				cardView: false,                    //是否显示详细视图
+				detailView: false,                   //是否显示父子表
+				columns: [{
+					checkbox: false,
+					visible: false
+				}, {
+					field: 'F_ChineseTitle',
+					title: '中文标题'
+				}, {
+					field: 'F_EnglishTitle',
+					title: '英文'
+				}, {
+					field: 'F_Label',
+					title: '标签'
+				}, {
+                        field: 'F_ReleaseDate',
+					title: '发布上线日期',
+					formatter: function (value) {
+						return changeDateFormat(value)
+					}
+				}, {
+					field: 'F_LastModifyTime',
+					title: '最近保存',
+					formatter: function (value) {
+						return changeDateFormat(value)
+					}
+				}, {
+					field: 'Button',
+					title: '操作',
+						events: fabuEvents,
+						formatter: Addfabu
+				},]
+			});
+		};
+
+		//得到查询的参数
+		fabuTableInit.queryParams = function (params) {
+			var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+				keyword: '',
+				sidx: 'F_Id',   //页面大小
+				sord: 'asc',  //页码
+				limit: params.limit,
+				offset: params.offset,
+				index: 1,
+				type: 3
+			};
+			return temp;
+		};
+		return fabuTableInit;
+	};
+
+    function Addfabu(value, row, index) { 
+		return [
+            '<button class="btn btn-primary btn-xs" id="fabuTableEdite">编辑</button> &nbsp;&nbsp;',
+            '<button class="btn btn-info btn-xs"  onclick="showInfo(\'' + row.F_Id + '\',\'' + row.F_Type + '\',\'' + row.F_TotalUrl + '\')">预览</button> &nbsp;&nbsp;'
+			//'<button class="btn btn-danger btn-xs" id="fabuTableSet">提交</button>'
+		].join("")
+	}
+	window.fabuEvents = {
+		// 编辑
+        "click #fabuTableEdite": function (e, value, row, index) {
+            SetEditUrl(row);
+		},
+		// 提交
+		"click #fabuTableSet": function (e, value, row, index) {
+			$.ajax({
+				url: "/ContentManage/DocumentUpload/UpdateState?keyValue=" + row.F_Id + "" + "&state=1",
+				type: 'post',
+				success: function (result) {
+					if (result == '操作成功') {
+						setTimeout(function () {
+							toastr.options = {
+								closeButton: true,
+								progressBar: true,
+								showMethod: 'slideDown',
+								timeOut: 500
+							};
+							toastr.success('操作成功！');
+						}, 100);
+						setTimeout(function () {
+							window.location.href = "/ContentManage/DocumentUpload/Index";
+						}, 600);
+					}
+				}
+			});
+		}
+    }
+    function SetEditUrl(row) {
+        if (row.F_Type == 3) {
+            if (row.F_TotalUrl == undefined || row.F_TotalUrl == "" || row.F_TotalUrl == null) { 
+                window.location.href = "/ContentManage/DocumentUpload/CreateInformationWordModel?keyValue=" + row.F_Id + "";
+                //window.location.href = "/ContentManage/DocumentUpload/CreateInformationWordModel?keyValue=" + row.F_Id + "";
+            } else {//pdf文件路径保存到F_TotalUrl
+                window.location.href = "/ContentManage/DocumentUpload/CreateInformationModel?keyValue=" + row.F_Id + "";
+            } 
+        } else {
+            if (row.F_TotalUrl == undefined || row.F_TotalUrl == "" || row.F_TotalUrl == null) {
+                //没有混排内容，到单独上传新增编辑页面
+                window.location.href = "/ContentManage/DocumentUpload/CreateModelAloneUploadFile?keyValue=" + row.F_Id + "";
+            } else {
+                window.location.href = "/ContentManage/DocumentUpload/CreateModelMixtureUploadFile?keyValue=" + row.F_Id + "";
+            }
+        } 
+    }
+	//修改——转换日期格式(时间戳转换为datetime格式)
+	function changeDateFormat(cellval) {
+		if (cellval != null) {
+			var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+			var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+			var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+			return date.getFullYear() + "-" + month + "-" + currentDate;
+		}
+	}
+
+	function queryDocument(index) {
+		var queryTypeVal = $("#bigTypeId").val();
+		$.ajax({
+			type: "get",
+			url: "/ContentManage/DocumentUpload/GetGridJson",
+			data: { keyword: $("#name").val(), limit: 10, offset: 0, index: index, type: queryTypeVal  },
+			dataType: "json",
+			success: function (json) {
+				if (parseInt(queryTypeVal) == 1) {
+					$("#tb_zuixin").bootstrapTable('load', json);//主要是要这种写法
+				}
+				if (parseInt(queryTypeVal) == 2) {
+					$("#tb_shenhe").bootstrapTable('load', json);//主要是要这种写法
+				}
+				if (parseInt(queryTypeVal) == 3) {
+					$("#tb_fabu").bootstrapTable('load', json);//主要是要这种写法
+				}
+			}
+		});
+	}
+
+	function btnQuery() {
+		var index = $("input[name='optionsDocument']:checked").val();
+		var queryTypeVal = $("#bigTypeId").val();
+		$.ajax({
+			type: "get",
+			url: "/ContentManage/DocumentUpload/GetGridJson",
+			data: { keyword: $("#name").val(), limit: 10, offset: 0, index: index, type: queryTypeVal },
+			dataType: "json",
+			success: function (json) {
+				if (parseInt(queryTypeVal) == 1) { 
+					$("#tb_zuixin").bootstrapTable('load', json);//主要是要这种写法
+				}
+				if (parseInt(queryTypeVal) == 2) {
+					$("#tb_shenhe").bootstrapTable('load', json);//主要是要这种写法
+				}
+				if (parseInt(queryTypeVal) == 3) {
+					$("#tb_fabu").bootstrapTable('load', json);//主要是要这种写法
+				}
+			}
+		});
+	}
+
+	function btnAdd() {
+        window.location.href = "/ContentManage/DocumentUpload/CreateModelMixtureUploadFile";
+    } 
+    function btnAddAloneUploadFile() {
+        window.location.href = "/ContentManage/DocumentUpload/CreateModelAloneUploadFile";
+    }
+    function btnAddInformation() {
+        window.location.href = "/ContentManage/DocumentUpload/CreateInformationModel";
+    }
+    function btnAddInformationWord() {
+        window.location.href = "/ContentManage/DocumentUpload/CreateInformationWordModel";
+    } 
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+	<div class="col-lg-10">
+		<ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+			<li>
+				<a>内容管理</a>
+			</li>
+			<li class="active">
+				<strong>文档上传</strong>
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<input type="hidden" id="bigTypeId" />
+		<div class="col-lg-4" onclick="queryType(1)">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" style="text-align:center;">
+					<span>最新编辑</span>
+					<h2 class="no-margins" style="color: #3399FF;" id="type_zuixin"><span id="nowEdit_id"></span>个文档</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4" onclick="queryType(2)">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" style="text-align:center;">
+					<small>审核环节</small>
+					<h2 class="no-margins" id="type_shenhe"><span id="auditTotal_id"></span> 项</h2>			
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4" onclick="queryType(3)">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" style="text-align:center;">
+					<small>已发布</small>
+					<h2 class="no-margins" id="type_fabu"><span id="publishedTotal_id"></span> 项</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>最新编辑列表</h5>
+				</div>
+				<div class="ibox-content">
+                    <div class="form-inline">
+                        <div data-toggle="buttons" class="btn-group">
+                            <label class="btn btn-white active" onclick="queryDocument(1)"><input type="radio" id="option1" value="1" name="optionsDocument">标准</label>
+                            <label class="btn btn-white" onclick="queryDocument(2)"><input type="radio" id="option2" value="2" name="optionsDocument">法规</label>
+                            <label class="btn btn-white" onclick="queryDocument(3)"><input type="radio" id="option3" value="3" name="optionsDocument">资讯</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="中文/英文名称" name="name" id="name" />
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="btnQuery()">查询</button>
+                        <button type="button" class="btn btn-info" id="btn_add" onclick="btnAdd()">新增标准/法规(中英)</button>
+                        <button type="button" class="btn btn-info" id="btn_addAloneUploadFile" onclick="btnAddAloneUploadFile()">新增标准/法规(单文件)</button>
+                        @*<button type="button" class="btn btn-info" id="btn_addInformation" onclick="btnAddInformation()">新增月报</button>*@
+                        <button type="button" class="btn btn-info" id="btn_addInformation" onclick="btnAddInformationWord()">新增资讯</button>
+                    </div>
+					<div class="table-responsive">
+						<div id="div_zuixin" style="display:block">
+							<table id="tb_zuixin"></table>
+						</div>
+						<div id="div_shenhe" style="display:none">
+							<table id="tb_shenhe"></table>
+						</div>
+						<div id="div_fabu" style="display:none">
+							<table id="tb_fabu"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

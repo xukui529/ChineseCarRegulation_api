@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "新增按钮";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+        var id = '@ViewData["id"]';
+        if (id != '' && id != null) {
+            $("#F_Location option[value='@Model.F_Location']").attr('selected', true);
+            // 是否有效
+            var isEnabledMark = '@Model.F_EnabledMark';
+            if (isEnabledMark == 'True') {
+                $('#trueRadio').attr("checked", "checked");
+            } else {
+                $('#falseRadio').attr("checked", "checked");
+            }
+        } else {
+            $('#trueRadio').attr("checked", "checked");
+        }
+
+    });
+    function btnSave() {
+        var keyValue = '@ViewData["id"]';
+        var data = $("#createMenu").serialize();
+        $.ajax({
+            url: "/SystemManage/Module/CreateButtonModel?keyValue=" + keyValue,
+            type: 'post',
+            data: data,
+            success: function (result) {
+                if (result == '操作成功') {
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 1000
+                        };
+                        toastr.success('操作成功！');
+                        window.location.href = '/SystemManage/Module/ButtonUpdateModel?keyValue=' + '@ViewData["moduleId"]';
+                    }, 0);
+                }
+            }
+        });
+	}
+
+	function btnBack() {
+		 window.location.href = '/SystemManage/Module/ButtonUpdateModel?keyValue=' + '@ViewData["moduleId"]';
+	}
+</script>
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left: -0px;">
+    <div class="col-lg-10">
+        <ol class="breadcrumb" style="padding:10px 0px 0px 10px;">
+            <li>
+                <a>工作台</a>
+            </li>
+            <li class="active">
+                <strong>菜单管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>新增按钮</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="createMenu">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="F_ModuleId" value="@ViewData["moduleId"]" />
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">名称</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" placeholder="名称" name="F_FullName" value="@Model.F_FullName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">编号</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" placeholder="编号" name="F_EnCode" value="@Model.F_EnCode">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">位置</label>
+                            <div class="col-lg-6">
+                                <select class="form-control" id="F_Location" name="F_Location">
+                                    <option value="1">初始</option>
+                                    <option value="2">选中</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">事件</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" placeholder="事件" name="F_JsEvent" value="@Model.F_JsEvent">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">链接</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" placeholder="链接" name="F_UrlAddress" value="@Model.F_UrlAddress">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">排序</label>
+                            <div class="col-lg-6">
+                                <input type="number" class="form-control" placeholder="排序" name="F_SortCode" value="@Model.F_SortCode">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">是否有效</label>
+                            <div class="col-lg-6 radios">
+                                <input name="F_EnabledMark" id="trueRadio" value="true" type="radio" />有效
+                                <input name="F_EnabledMark" id="falseRadio" value="false" type="radio" />无效
+                            </div>
+                        </div>
+                        <div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button class="btn btn-success" type="button" onclick="btnSave()">保存</button>
+								<button class="btn btn-warning" type="button" onclick="btnBack()">返回</button>
+							</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
