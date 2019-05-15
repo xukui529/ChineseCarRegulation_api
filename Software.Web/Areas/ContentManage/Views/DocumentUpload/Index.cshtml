@@ -1,9 +1,10 @@
-﻿@{
+@{
 	ViewBag.Title = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script>
+    _indexTab = 1;//标准1；法规2；资讯3；
 	$(document).ready(function () {
 		$.ajax({
 			url: '/ContentManage/DocumentUpload/GetModelTotal',
@@ -139,7 +140,7 @@
 				sord: 'asc',  //页码
 				limit: params.limit,
 				offset: params.offset,
-				index: 1,
+                index: _indexTab,
 				type: 1
 			};
 			return temp;
@@ -272,7 +273,7 @@
 				sord: 'asc',  //页码
 				limit: params.limit,
 				offset: params.offset,
-				index: 1,
+                index: _indexTab,
 				type: 2
 			};
 			return temp;
@@ -415,7 +416,7 @@
 				sord: 'asc',  //页码
 				limit: params.limit,
 				offset: params.offset,
-				index: 1,
+                index: _indexTab,
 				type: 3
 			};
 			return temp;
@@ -486,7 +487,8 @@
 		}
 	}
 
-	function queryDocument(index) {
+    function queryDocument(index) {
+        _indexTab = index;
 		var queryTypeVal = $("#bigTypeId").val();
 		$.ajax({
 			type: "get",
